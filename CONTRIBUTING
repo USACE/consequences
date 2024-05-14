@@ -1,0 +1,41 @@
+## How to contribute
+Please review this short guide to learn about the way we operate. Thank you!
+
+## Issues 
+Issue tracking takes place on Github. Issues should be defined at the smallest possible level.  Issues should be referenced by number in the commit summary which addresses them. 
+
+## Testing
+Please write tests for new logic you create and for existing logic that does not have tests. Level of testing should be kept to as small a unit as possible. 
+
+## Submitting changes
+Please create a GitHub Pull Request with a clear list of what you've done and add one of the labels to categorize the changes. If any public api has been changed, be sure to note that explicitly and prepare separate PRs for depending projects to fix build errors. 
+
+We can always use more test coverage. Please follow our coding conventions (below) and make sure all of your commits are atomic (one feature per commit). Please keep commits to a given branch small/few in number and maintain short branch life. For any given class you have touched:
+- Remove commented out code unless there is a special reason (and add reason to comments).
+- Fix all throw not implemented exceptions. 
+- Fix TODO statements, or explain why TODO remains.
+
+##Reviewing PRs
+- After confirming no build errors and tests pass, please review code changes and add comments as appropriate 
+
+## Coding conventions
+- Please follow the coding conventions documented by Microsft here: https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names and here https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
+
+- When writing unit tests, please follow the conventions here: https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices
+
+- Please add comments in XML to explain assumptions and limitations of the code.
+- Please add comments in XML to describe appropriate use of public members.
+- Please mark work in progress with TODO or HACK. 
+- Please make access modifiers as limiting as possible.
+- Please avoid the term "test" except for unit tests and debugging aids. 
+- Test classes should use the naming convention {ClassToBeTested}+"Should".cs
+- Individual tests within a class should be written such that they complete the sentence started by class name. 
+  (ex. take class Foo.cs and method Multiply(). Test class would be FooShould.cs and method MultiplyByInput().)
+- Tests should be made to be as simple and fast running as possible. 
+- Please use camel casing generally, and, start private fields with an underscore then capital letter, and start properties and methods capitalized.
+- Please start interfaces with an upper-case "I" and start bases with "Base." 
+
+## Requesting Feedback 
+- Feel free to request feedback through a pull request. 
+- Mark the pull request as draft. 
+- Request a review and specify that the pull request represents work in progress. 
