@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Consequences;
-internal interface IHazardInterface
+public interface IHazardInterface
 {
-  internal bool Has(HazardParameter hp);
-  internal T Get<T>(HazardParameter hp);
+  public bool Has(HazardParameter hp);
+  public T Get<T>(HazardParameter hp);
 }
