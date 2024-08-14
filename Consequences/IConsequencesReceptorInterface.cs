@@ -1,5 +1,5 @@
 ﻿namespace Consequences;
-public interface IConsequencesReceptorInterface
+public interface IConsequencesReceptor<T>
 {
-  public Result Compute(IHazardInterface hi);
+  public Result<T> Compute(IHazard hi);
 }
