@@ -1,9 +1,10 @@
 ﻿namespace Consequences;
-public struct Result
+public struct Result<T> 
 {
-  private ResultItem<object>[] results;
+  private ResultItem<T>[] results;
 
-  public ResultItem<object> Fetch(string name)
+  // retrieve a ResultItem from a Result by name
+  public ResultItem<T> Fetch(string name)
   {
     for (int i = 0; i < results.Length; i++)
     {
