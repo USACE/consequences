@@ -1,5 +1,6 @@
 ﻿namespace Consequences;
-public enum HazardParameter : long
+[Flags]
+public enum HazardParameter
 {
   NoHazard,
   Depth          = 2,
