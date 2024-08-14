@@ -1,10 +1,10 @@
 ﻿namespace Consequences;
 [Flags]
-public enum HazardParameter
+public enum HazardParameter // backed by an int by default
 {
-  NoHazard,
-  Depth          = 2,
-  Velocity       = 4,
-  ArrivalTime    = 8,
-  ArrivalTime2ft = 16
+  NoHazard       = 0,
+  Depth          = 1,
+  Velocity       = 2,
+  ArrivalTime    = 4,
+  ArrivalTime2ft = 8
 }
