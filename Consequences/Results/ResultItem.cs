@@ -1,4 +1,4 @@
-﻿namespace Consequences;
+﻿namespace USACE.HEC.Results;
 public class ResultItem<T>
 {
   private string resultName;
@@ -11,10 +11,10 @@ public class ResultItem<T>
   }
 
   public string Name()
-  { 
+  {
     return resultName;
   }
-  public T Value() 
+  public T Value()
   {
     return result;
   }
