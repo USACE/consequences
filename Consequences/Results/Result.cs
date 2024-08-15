@@ -1,14 +1,14 @@
 ﻿namespace USACE.HEC.Results;
-public struct Result<T>
+public class Result
 {
-  private ResultItem<T>[] results;
+  private ResultItem[] results;
 
   // retrieve a ResultItem from a Result by name
-  public ResultItem<T> Fetch(string name)
+  public ResultItem Fetch(string name)
   {
     for (int i = 0; i < results.Length; i++)
-      if (results[i].Name() == name)
+      if (results[i].ResultName == name)
         return results[i];
-    return null;
+    throw new Exception("Name not found.");
   }
 }
