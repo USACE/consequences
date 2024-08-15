@@ -1,5 +1,5 @@
-﻿namespace Consequences;
-public struct Result<T> 
+﻿namespace USACE.HEC.Results;
+public struct Result<T>
 {
   private ResultItem<T>[] results;
 
@@ -7,12 +7,8 @@ public struct Result<T>
   public ResultItem<T> Fetch(string name)
   {
     for (int i = 0; i < results.Length; i++)
-    {
-      if (results[i].Name() == name) 
-      { 
+      if (results[i].Name() == name)
         return results[i];
-      }
-    }
     return null;
   }
 }
