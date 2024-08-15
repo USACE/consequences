@@ -4,5 +4,5 @@ using USACE.HEC.Results;
 namespace USACE.HEC.Consequences;
 public interface IConsequencesReceptor<T>
 {
-  public Result<T> Compute(IHazard hi);
+  public Result Compute(IHazard hi);
 }
