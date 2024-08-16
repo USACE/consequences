@@ -10,6 +10,7 @@ public class DepthHazardTest
     float input = 1.01f;
     IHazard dh = new DepthHazard(input);
     bool has = dh.Has(HazardParameter.Depth);
+    Assert.True(has);
     if (has)
     {
       float depth = dh.Get<float>(HazardParameter.Depth);
@@ -18,7 +19,13 @@ public class DepthHazardTest
     {
       throw new Exception("Failed to find appropriate parameter");
     }
+  }
 
+  [Fact]
+  public void TestHasWrongParameter()
+  {
+    IHazard dh = new DepthHazard(1.01f);
+    Assert.False(dh.Has(HazardParameter.Velocity));
   }
 
   [Fact]
@@ -26,6 +33,5 @@ public class DepthHazardTest
   {
     IHazard dh = new DepthHazard(1.01f);
     Assert.Throws<NotSupportedException>(() => dh.Get<float>(HazardParameter.ArrivalTime));
-
   }
 }

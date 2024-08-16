@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace USACE.HEC.Hazards;
+﻿namespace USACE.HEC.Hazards;
 public class DepthHazard : IHazard
 {
   private float _depth;
@@ -23,17 +17,12 @@ public class DepthHazard : IHazard
     // return ((T?)_depth).GetValueOrDefault();
     
     if (!Has(hp)) 
-    { 
       throw new NotSupportedException();
-    }
 
     if (typeof(T) == typeof(float))
-    {
       return (T)(object)_depth;
-    }
-    else 
-    {
+    else
       throw new InvalidCastException();
-    }
+      
   }
 }
