@@ -21,12 +21,19 @@ public class DepthHazard : IHazard
   public T Get<T>(HazardParameter hp)
   {
     // return ((T?)_depth).GetValueOrDefault();
+    
+    if (!Has(hp)) 
+    { 
+      throw new NotSupportedException();
+    }
 
     if (typeof(T) == typeof(float))
     {
       return (T)(object)_depth;
     }
-
-    throw new NotSupportedException();
+    else 
+    {
+      throw new InvalidCastException();
+    }
   }
 }
