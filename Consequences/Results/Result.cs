@@ -8,6 +8,11 @@ public class Result
     _resultItems = resultItems;
   }
 
+  public ResultItem[] GetResultItems()
+  {
+    return _resultItems;
+  }
+
   // retrieve a ResultItem from a Result by name
   public ResultItem Fetch(string name)
   {
