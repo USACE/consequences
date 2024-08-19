@@ -23,7 +23,40 @@ public class LifeLossHazard : IHazard
 
   public T Get<T>(HazardParameter hp)
   {
-    // placeholder
-    return (T)(object)_depth;
+    // assumes get will always ask for a single parameter
+    // passing in a compound HazardParameter will throw an exception
+    if (typeof(T) == typeof(float))
+    {
+      // check for valid float-typed parameters
+      if (hp == HazardParameter.Depth)
+      {
+        return (T)(object)_depth;
+      }
+      else if (hp == HazardParameter.Velocity) 
+      { 
+        return (T)(object)_velocity; 
+      }
+      else
+      {
+        throw new NotSupportedException();
+      }
+    }
+    else if (typeof(T) == typeof(DateTime)) 
+    {
+      // check for valid DateTime-typed parameters
+      if (hp == HazardParameter.ArrivalTime2ft)
+      {
+        return (T)(object)_time;
+      }
+      else
+      {
+        throw new NotSupportedException();
+      }
+    }
+    else
+    {
+      throw new InvalidCastException();
+    }
+    
   }
 }

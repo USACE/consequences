@@ -14,15 +14,22 @@ public class DepthHazard : IHazard
 
   public T Get<T>(HazardParameter hp)
   {
-    // return ((T?)_depth).GetValueOrDefault();
-    
-    if (!Has(hp)) 
-      throw new NotSupportedException();
-
+    // assumes get will always ask for a single parameter
+    // passing in a compound HazardParameter will throw an exception
     if (typeof(T) == typeof(float))
-      return (T)(object)_depth;
+    {
+      if (hp == HazardParameter.Depth)
+      {
+        return (T)(object)_depth;
+      }
+      else
+      {
+        throw new NotSupportedException();
+      }
+    }
     else
+    {
       throw new InvalidCastException();
-      
+    }
   }
 }
