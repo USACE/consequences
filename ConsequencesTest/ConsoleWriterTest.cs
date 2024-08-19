@@ -29,11 +29,11 @@ public class ConsoleWrite
       // check for header and row1
       Assert.Equal(headers + row1, stringWriter.ToString());
       cw.Write(res);
-      // check for header and then two row1s, and header only written once
+      // check for header and then two row1s, and that the header is only written once
       Assert.Equal(headers + row1 + row1, stringWriter.ToString());
     }
     Console.SetOut(Console.Out);
-    // check for end of file
+    // check for end of file, confirms that cw was disposed  
     Assert.Equal(headers + row1 + row1 + eof, stringWriter.ToString());
   }
 
