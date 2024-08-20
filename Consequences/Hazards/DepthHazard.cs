@@ -20,6 +20,7 @@ public class DepthHazard : IHazard
     {
       if (hp == HazardParameter.Depth)
       {
+        // compiler cannot prove T is float at compile time
         return (T)(object)_depth;
       }
       else

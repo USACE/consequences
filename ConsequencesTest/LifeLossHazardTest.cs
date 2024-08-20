@@ -46,7 +46,7 @@ public class LifeLossHazardTest
   [Fact]
   public void TestGetInvalidParameter()
   {
-    Assert.Throws<NotSupportedException>(() => llh.Get<float>(HazardParameter.ArrivalTime));
+    Assert.Throws<NotSupportedException>(() => llh.Get<DateTime>(HazardParameter.ArrivalTime));
     Assert.Throws<NotSupportedException>(() => llh.Get<float>(HazardParameter.Velocity | HazardParameter.Depth));
   }
 
