@@ -15,10 +15,10 @@ public class LifeLossHazard : IHazard
   public bool Has(HazardParameter hp)
   {
     // compound HazardParameter representing all three parameters
-    HazardParameter llh = HazardParameter.Depth |
+    HazardParameter combinedHP = HazardParameter.Depth |
                           HazardParameter.Velocity |
                           HazardParameter.ArrivalTime2ft;
-    return (hp & llh) == hp;
+    return (hp & combinedHP) == hp;
   }
 
   public T Get<T>(HazardParameter hp)
@@ -57,6 +57,8 @@ public class LifeLossHazard : IHazard
     {
       throw new InvalidCastException();
     }
+
+
     
   }
 }

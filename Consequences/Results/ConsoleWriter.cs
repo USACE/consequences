@@ -12,6 +12,7 @@ public class ConsoleWriter : IResultsWriter
   private List<string> headers = new List<string>();
 
   // check to make sure the result being written matches the headers already written
+  // assumes headers are in the same order
   private void CheckIfSameHeaders(Result res)
   {
     // different number of headers
@@ -30,11 +31,13 @@ public class ConsoleWriter : IResultsWriter
   }
   public void Write(Result res)
   {
+   // StringBuilder sb = new StringBuilder();
     if (!hasHeaderWritten)
     {
       // write the headers to the top of the file
       for (int i = 0; i < res.GetResultItems().Length; i++)
       {
+        //sb.Append(res.GetResultItems()[i].ResultName);
         Console.Write(res.GetResultItems()[i].ResultName);
         if (i < res.GetResultItems().Length - 1)
         {
@@ -57,6 +60,7 @@ public class ConsoleWriter : IResultsWriter
     }
     Console.WriteLine();
   }
+
 
   public void Dispose()
   {
