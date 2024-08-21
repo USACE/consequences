@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 namespace USACE.HEC.Geography;
 public class BoundingBox
 {
-  private Location _upperLeft;
-  private Location _lowerRight;
+  public Location _upperLeft;
+  public Location _lowerRight;
 
   public BoundingBox(Location upperLeft, Location lowerRight)
   {
     _upperLeft = upperLeft;
     _lowerRight = lowerRight;
   }
+
+  public Location GetUpperLeft() { return _upperLeft; }
+  public Location GetLowerRight() { return _lowerRight; }
 
   public string NSIFormat()
   {
