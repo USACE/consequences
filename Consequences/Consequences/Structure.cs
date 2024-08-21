@@ -15,13 +15,13 @@ public class Structure : IConsequencesReceptor
   public string CBFips { get; set; }
 
   [JsonPropertyName("x")]
-  public float X { get; set; }
+  public double X { get; set; }
 
   [JsonPropertyName("y")]
-  public float Y { get; set; }
+  public double Y { get; set; }
 
   [JsonPropertyName("ground_elv")]
-  public float GroundElevation { get; set; }
+  public double GroundElevation { get; set; }
 
   [JsonPropertyName("occtype")]
   public string Occtype { get; set; }
@@ -36,13 +36,13 @@ public class Structure : IConsequencesReceptor
   public string ConstructionType { get; set; }
 
   [JsonPropertyName("val_struct")]
-  public float StructVal { get; set; }
+  public double StructVal { get; set; }
 
   [JsonPropertyName("val_cont")]
-  public float ContVal { get; set; }
+  public double ContVal { get; set; }
 
   [JsonPropertyName("found_ht")]
-  public float FoundHt { get; set; }
+  public double FoundHt { get; set; }
 
   [JsonPropertyName("num_story")]
   public int NumStories { get; set; }
