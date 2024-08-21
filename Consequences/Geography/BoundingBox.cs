@@ -1,8 +1,8 @@
 ﻿namespace USACE.HEC.Geography;
 public class BoundingBox
 {
-  public Location _upperLeft;
-  public Location _lowerRight;
+  private Location _upperLeft;
+  private Location _lowerRight;
 
   public BoundingBox(Location upperLeft, Location lowerRight)
   {
