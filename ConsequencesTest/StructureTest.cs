@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using USACE.HEC.Results;
+﻿using USACE.HEC.Results;
 using USACE.HEC.Consequences;
 using USACE.HEC.Hazards;
-using System.IO;
-using System.Reflection.PortableExecutable;
-using System.Runtime.CompilerServices;
-using Xunit.Abstractions;
 
 namespace ConsequencesTest;
 public class StructureTest
