@@ -1,5 +1,4 @@
 ﻿using USACE.HEC.Hazards;
-using Xunit.Sdk;
 
 namespace ConsequencesTest;
 public class LifeLossHazardTest
