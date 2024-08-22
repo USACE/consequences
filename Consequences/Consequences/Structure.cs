@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using USACE.HEC.Geography;
 using USACE.HEC.Hazards;
 using USACE.HEC.Results;
 
@@ -58,6 +59,11 @@ public class Structure : IConsequencesReceptor
 
   [JsonPropertyName("pop2amu65")]
   public int Popu65night { get; set; }
+
+  public Location GetLocation()
+  {
+    return new Location { X = X, Y = Y };
+  }
 
   public Result Compute(IHazard hazard) 
   {

@@ -17,12 +17,11 @@ public class NSIStreamingProcessorTest
   {
     IBBoxStreamingProcessor sp = new NSIStreamingProcessor();
     // int i = 0;
-    Location upperLeft = new Location { X = -40, Y = 50 };
     IHazardProvider depthHazardProvider = new RandomDepthHazardProvider(25);
     IResultsWriter consoleWriter = new ConsoleWriter();
 
     sp.Process(depthHazardProvider.Extent(), (IConsequencesReceptor s) => {
-      Result r = s.Compute(depthHazardProvider.Hazard(upperLeft));
+      Result r = s.Compute(depthHazardProvider.Hazard(s.GetLocation()));
       consoleWriter.Write(r);
     });
   }
