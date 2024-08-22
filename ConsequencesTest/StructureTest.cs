@@ -7,7 +7,7 @@ namespace ConsequencesTest;
 public class StructureTest
 {
   [Fact]
-  public void TestSimpleDepth()
+  public void Compute_SimpleDepth()
   {
     Structure s = new Structure();
     IHazard dh = new DepthHazard(4.56f);
@@ -21,7 +21,7 @@ public class StructureTest
   }
 
   [Fact]
-  public void TestDepthConsoleWriter()
+  public void Compute_ArrayDepth_CorrectConsoleOutput()
   {
     Structure s = new Structure(); 
     DepthHazard[] depthHazardArray =
@@ -63,7 +63,7 @@ public class StructureTest
 
   
   [Fact]
-  public void TestLifeLossConsoleWriter()
+  public void Compute_ArrayLifeLoss_CorrectConsoleOutput()
   {
     Structure s = new Structure();
     LifeLossHazard[] lifeLossHazardArray =

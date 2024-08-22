@@ -9,7 +9,7 @@ public class LifeLossHazardTest
   IHazard llh = new LifeLossHazard(depth, velocity, time);
 
   [Fact]
-  public void TestHasCorrectParameter()
+  public void Has_ValidParameter_ReturnsTrue()
   {
     Assert.True(llh.Has(HazardParameter.Depth));
     Assert.True(llh.Has(HazardParameter.Velocity));
@@ -19,7 +19,7 @@ public class LifeLossHazardTest
   }
 
   [Fact]
-  public void TestHasIncorrectParameter()
+  public void Has_InvalidParameter_ReturnsFalse()
   {
     Assert.False(llh.Has(HazardParameter.ArrivalTime));
     // compound parameter, must have all individual parameters to pass
@@ -27,7 +27,7 @@ public class LifeLossHazardTest
   }
 
   [Fact]
-  public void TestGetCorrectValue()
+  public void Get_ValidParameter_ReturnValue()
   {
     Assert.Equal(depth, llh.Get<float>(HazardParameter.Depth));
     Assert.Equal(velocity, llh.Get<float>(HazardParameter.Velocity));
@@ -35,7 +35,7 @@ public class LifeLossHazardTest
   }
 
   [Fact]
-  public void TestGetIncorrectValue()
+  public void Get_ValidParameter_ValueNotEqualToRandom()
   {
     Assert.NotEqual(depth + 0.1f, llh.Get<float>(HazardParameter.Depth));
     Assert.NotEqual(velocity + 0.1f, llh.Get<float>(HazardParameter.Velocity));
@@ -43,14 +43,14 @@ public class LifeLossHazardTest
   }
 
   [Fact]
-  public void TestGetInvalidParameter()
+  public void Get_InvalidParameter_ThrowNotSupported()
   {
     Assert.Throws<NotSupportedException>(() => llh.Get<DateTime>(HazardParameter.ArrivalTime));
     Assert.Throws<NotSupportedException>(() => llh.Get<float>(HazardParameter.Velocity | HazardParameter.Depth));
   }
 
   [Fact]
-  public void TestGetInvalidType()
+  public void Get_InvalidType_ThrowInvalidCast()
   {
     Assert.Throws<InvalidCastException>(() => llh.Get<int>(HazardParameter.Depth));
     Assert.Throws<InvalidCastException>(() => llh.Get<string>(HazardParameter.Velocity));

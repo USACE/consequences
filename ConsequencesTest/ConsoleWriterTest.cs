@@ -10,7 +10,7 @@ public class ConsoleWrite
   static ResultItem[] resultItems = { r1, r2, r3 };
   Result res = new Result(resultItems);
   [Fact]
-  public void TestHeaders()
+  public void Write_PrintsHeadersOnce()
   {
     string headers = "Depth,Velocity,ArrivalTime2ft\r\n";
     string row1 = "1.03,2.02,1/1/0001 12:00:00 AM\r\n";
@@ -30,7 +30,7 @@ public class ConsoleWrite
   }
 
   [Fact]
-  public void TestInvalidResult()
+  public void Write_InvalidRowWritten_ThrowsException()
   {
     // Result with headers that do not match res
     ResultItem[] bad = { r1, r1, r3 };
