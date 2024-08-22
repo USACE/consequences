@@ -7,14 +7,16 @@ public class RandomDepthHazardProviderTest
   [Fact]
   public void ExtentTest()
   {
-    IHazardProvider depthProvider = new RandomDepthHazardProvider(26);
+    Location location1 = new Location { X = 0, Y = 0 };
+    Location location2 = new Location { X = 0, Y = 0 };
+    IHazardProvider depthProvider = new RandomDepthHazardProvider(26) { Extent = new BoundingBox(location1, location2) };
 
-    BoundingBox box = depthProvider.Extent();
+    BoundingBox box = depthProvider.Extent;
 
-    Assert.Equal(0, box.GetUpperLeft().X);
-    Assert.Equal(0, box.GetUpperLeft().Y);
-    Assert.Equal(0, box.GetLowerRight().X);
-    Assert.Equal(0, box.GetLowerRight().Y);
+    Assert.Equal(0, box.UpperLeft.X);
+    Assert.Equal(0, box.UpperLeft.Y);
+    Assert.Equal(0, box.LowerRight.X);
+    Assert.Equal(0, box.LowerRight.Y);
   }
 
   [Fact]

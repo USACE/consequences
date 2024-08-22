@@ -4,6 +4,6 @@ namespace USACE.HEC.Hazards;
 
 public interface IHazardProvider
 {
-  public BoundingBox Extent();
+  public BoundingBox Extent { get; set; }
   public IHazard Hazard(Location location);
 }

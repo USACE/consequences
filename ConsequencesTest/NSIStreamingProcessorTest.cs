@@ -20,7 +20,7 @@ public class NSIStreamingProcessorTest
     IHazardProvider depthHazardProvider = new RandomDepthHazardProvider(25);
     IResultsWriter consoleWriter = new ConsoleWriter();
 
-    sp.Process(depthHazardProvider.Extent(), (IConsequencesReceptor s) => {
+    sp.Process(depthHazardProvider.Extent, (IConsequencesReceptor s) => {
       Result r = s.Compute(depthHazardProvider.Hazard(s.GetLocation()));
       consoleWriter.Write(r);
     });

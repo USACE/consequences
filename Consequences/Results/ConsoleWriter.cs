@@ -11,14 +11,14 @@ public class ConsoleWriter : IResultsWriter
   private void CheckIfSameHeaders(Result res)
   {
     // different number of headers
-    if (res.GetResultItems().Length != headers.Count)
+    if (res.ResultItems.Length != headers.Count)
     {
       throw new InvalidOperationException();
     }
     for (int i = 0; i < headers.Count; i++)
     {
       // headers do not match
-      if (res.GetResultItems()[i].ResultName != headers[i])
+      if (res.ResultItems[i].ResultName != headers[i])
       {
         throw new InvalidOperationException();
       }
@@ -31,15 +31,15 @@ public class ConsoleWriter : IResultsWriter
     if (!hasHeaderWritten)
     {
       // write the headers to the top of the file
-      for (int i = 0; i < res.GetResultItems().Length; i++)
+      for (int i = 0; i < res.ResultItems.Length; i++)
       {
         //sb.Append(res.GetResultItems()[i].ResultName);
-        output.Append(res.GetResultItems()[i].ResultName);
-        if (i < res.GetResultItems().Length - 1)
+        output.Append(res.ResultItems[i].ResultName);
+        if (i < res.ResultItems.Length - 1)
         {
           output.Append(',');
         }
-        headers.Add(res.GetResultItems()[i].ResultName);
+        headers.Add(res.ResultItems[i].ResultName);
       }
       output.Append("\r\n");
       hasHeaderWritten = true;
