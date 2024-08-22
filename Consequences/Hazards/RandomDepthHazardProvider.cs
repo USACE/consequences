@@ -3,6 +3,8 @@
 namespace USACE.HEC.Hazards;
 public class RandomDepthHazardProvider : IHazardProvider
 {
+  private BoundingBox _bbox;
+
   private Random _rng;
 
   public RandomDepthHazardProvider(int seed)
@@ -10,11 +12,10 @@ public class RandomDepthHazardProvider : IHazardProvider
     _rng = new Random(seed);
   }
 
-  public BoundingBox Extent()
+  public BoundingBox Extent
   {
-    Location upperLeft  = new Location { X = 0, Y = 0 };
-    Location lowerRight = new Location { X = 0, Y = 0 };
-    return new BoundingBox(upperLeft, lowerRight);
+    get { return _bbox; }
+    set { _bbox = value; }
   }
 
   public IHazard Hazard(Location location)
