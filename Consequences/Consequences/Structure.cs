@@ -6,7 +6,7 @@ namespace USACE.HEC.Consequences;
 public class Structure : IConsequencesReceptor
 {
   [JsonPropertyName("fd_id")]
-  public string Name { get; set; }
+  public int Name { get; set; }
 
   [JsonPropertyName("st_damcat")]
   public string DamCat { get; set; }
