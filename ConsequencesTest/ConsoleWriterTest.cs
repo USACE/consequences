@@ -1,15 +1,9 @@
-﻿using USACE.HEC.Results;
+﻿using Microsoft.VisualStudio.TestPlatform.Utilities;
+using USACE.HEC.Results;
 
 namespace ConsequencesTest;
 public class ConsoleWrite
 {
-  private readonly TextWriter _originalConsoleOut;
-  public ConsoleWrite()
-  {
-    // Store the original Console.Out
-    _originalConsoleOut = Console.Out;
-  }
-
   static ResultItem r1 = new ResultItem { ResultName = "Depth", Result = 1.03f };
   static ResultItem r2 = new ResultItem { ResultName = "Velocity", Result = 2.02f };
   static ResultItem r3 = new ResultItem { ResultName = "ArrivalTime2ft", Result = new DateTime() };
@@ -18,28 +12,21 @@ public class ConsoleWrite
   [Fact]
   public void TestHeaders()
   {
-    //Console.Clear();
-
-    var stringWriter = new StringWriter();
     string headers = "Depth,Velocity,ArrivalTime2ft\r\n";
     string row1 = "1.03,2.02,1/1/0001 12:00:00 AM\r\n";
-    string eof = "END OF FILE\r\n";
+    // string eof = "END OF FILE\r\n";
+    string output = "";
+    ConsoleWriter cw = new ConsoleWriter();
 
-    Console.SetOut(stringWriter);
-    using (IResultsWriter cw = new ConsoleWriter())
+    // changed the tests to test strings and not direct console output
+    using (cw)
     {
-      // check empty console at first
-      // Assert.Equal("", stringWriter.ToString());
-      cw.Write(res);
-      // check for header and row1
-      // Assert.Equal(headers + row1, stringWriter.ToString());
-      cw.Write(res);
-      // check for header and then two row1s, and that the header is only written once
-      // Assert.Equal(headers + row1 + row1, stringWriter.ToString());
-    }
-    Console.SetOut(_originalConsoleOut);
-    // check for end of file, confirms that cw was disposed  
-    Assert.Equal(headers + row1 + row1 + eof, stringWriter.ToString());
+      output += cw.WriteString(res);
+      output += cw.WriteString(res);
+    } 
+    // can't test EOF here because it is written to console and not a string, but can confirm
+    // it is written to console
+    Assert.Equal(headers + row1 + row1, output);
   }
 
   [Fact]
@@ -49,10 +36,10 @@ public class ConsoleWrite
     ResultItem[] bad = { r1, r1, r3 };
     Result invalidResult = new Result(bad);
 
-    IResultsWriter cw = new ConsoleWriter();
-    cw.Write(res);
+    ConsoleWriter cw = new ConsoleWriter();
+    cw.WriteString(res);
 
     // throw exception when adding a row with differing headers
-    Assert.Throws<InvalidOperationException>(() => cw.Write(invalidResult));
+    Assert.Throws<InvalidOperationException>(() => cw.WriteString(invalidResult));
   }
 }

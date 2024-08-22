@@ -1,22 +1,17 @@
 ﻿using USACE.HEC.Results;
 using USACE.HEC.Consequences;
 using USACE.HEC.Hazards;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 
 namespace ConsequencesTest;
 public class StructureTest
 {
-  private readonly TextWriter _originalConsoleOut;
-  public StructureTest()
-  {
-    // Store the original Console.Out
-    _originalConsoleOut = Console.Out;
-  }
-
   [Fact]
   public void TestSimpleDepth()
   {
     Structure s = new Structure();
     IHazard dh = new DepthHazard(4.56f);
+
     Result res = s.Compute(dh);
     ResultItem item1 = res.Fetch("Depth");
 
@@ -28,8 +23,6 @@ public class StructureTest
   [Fact]
   public void TestDepthConsoleWriter()
   {
-    //Console.Clear();
-    var stringWriter = new StringWriter();
     Structure s = new Structure(); 
     DepthHazard[] depthHazardArray =
     {
@@ -42,10 +35,11 @@ public class StructureTest
       new DepthHazard(0.2f),
       new DepthHazard(23.23f)
     };
-
     string expectedConsoleOutput = "Depth\r\n";
-    Console.SetOut(stringWriter);
-    using (IResultsWriter cw = new ConsoleWriter())
+    string actualOutput = "";
+    ConsoleWriter cw = new ConsoleWriter();
+
+    using (cw)
     {
       foreach (DepthHazard depthHazard in depthHazardArray)
       {
@@ -57,21 +51,20 @@ public class StructureTest
         Assert.Equal(depthHazard.Get<float>(HazardParameter.Depth), depthItem.Result); 
         
         expectedConsoleOutput += depthItem.Result.ToString() + "\r\n";
-        cw.Write(res);
+        actualOutput += cw.WriteString(res);
       }
     }
-    Console.SetOut(_originalConsoleOut);
-    expectedConsoleOutput += "END OF FILE\r\n";
+    // can't test EOF here because it is written to console and not a string, but can confirm
+    // it is written to console
+    // expectedConsoleOutput += "END OF FILE\r\n";
 
-    // Assert.Equal(expectedConsoleOutput, stringWriter.ToString());
+    Assert.Equal(expectedConsoleOutput, actualOutput);
   }
 
   
   [Fact]
   public void TestLifeLossConsoleWriter()
   {
-    //Console.Clear();
-    var stringWriter = new StringWriter();
     Structure s = new Structure();
     LifeLossHazard[] lifeLossHazardArray =
     {
@@ -84,10 +77,11 @@ public class StructureTest
       new LifeLossHazard(0.2f, 5.55f, new DateTime(1989, 4, 16)),
       new LifeLossHazard(23.23f, 8.88f, new DateTime(1800, 7, 25))
     };
-
     string expectedConsoleOutput = "Depth,Velocity,ArrivalTime2ft\r\n";
-    Console.SetOut(stringWriter);
-    using (IResultsWriter cw = new ConsoleWriter())
+    string actualOutput = "";
+    ConsoleWriter cw = new ConsoleWriter();
+
+    using (cw)
     {
       foreach (LifeLossHazard lifeLossHazard in lifeLossHazardArray)
       {
@@ -111,13 +105,14 @@ public class StructureTest
         expectedConsoleOutput += depthItem.Result.ToString() + ',';
         expectedConsoleOutput += velocityItem.Result.ToString() + ',';
         expectedConsoleOutput += arrivalTime2ftItem.Result.ToString() + "\r\n";
-        cw.Write(res);
+        actualOutput += cw.WriteString(res);
       }
     }
-    Console.SetOut(_originalConsoleOut);
-    expectedConsoleOutput += "END OF FILE\r\n";
+    // can't test EOF here because it is written to console and not a string, but can confirm
+    // it is written to console
+    // expectedConsoleOutput += "END OF FILE\r\n";
 
-    // Assert.Equal(expectedConsoleOutput, stringWriter.ToString());
+    Assert.Equal(expectedConsoleOutput, actualOutput);
   }
   
 }
