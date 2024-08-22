@@ -4,7 +4,7 @@ namespace ConsequencesTest;
 public class BoundingBoxTest
 {
   [Fact]
-  public void TestNSI()
+  public void NSIFormat_ArbitraryLocation_ReturnCorrectFormat()
   {
     Location upperLeft = new Location { X = -40, Y = 50 };
     Location lowerRight = new Location { X = 60, Y = -50 };

@@ -5,7 +5,7 @@ namespace ConsequencesTest;
 public class RandomDepthHazardProviderTest
 {
   [Fact]
-  public void ExtentTest()
+  public void Extent_0000_CreateCorrectBox()
   {
     Location location1 = new Location { X = 0, Y = 0 };
     Location location2 = new Location { X = 0, Y = 0 };
@@ -20,7 +20,7 @@ public class RandomDepthHazardProviderTest
   }
 
   [Fact]
-  public void DepthTest()
+  public void Hazard_RandomDepthHazards_ConsistentDepthValues()
   {
     // seeded randomly generated depths to ensure consistency when testing
     int seed = 26;
