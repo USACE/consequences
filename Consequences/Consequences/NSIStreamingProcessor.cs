@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using USACE.HEC.Geography;
 
+
 namespace USACE.HEC.Consequences;
 public class NSIStreamingProcessor : IBBoxStreamingProcessor
 {
@@ -21,24 +22,31 @@ public class NSIStreamingProcessor : IBBoxStreamingProcessor
 
     using (var client = new HttpClient())
     {
-      // get the json from the NSI
-      string jsonResponse = await client.GetStringAsync(apiUrl);
-
-      using (JsonDocument doc = JsonDocument.Parse(jsonResponse))
+      try
       {
-        // access the FeatureCollection
-        JsonElement featureCollection = doc.RootElement.GetProperty("features");
+        // get the json from the NSI
+        string jsonResponse = await client.GetStringAsync(apiUrl);
 
-        // iterate through the FeatureCollection
-        foreach (JsonElement structure in featureCollection.EnumerateArray())
+        using (JsonDocument doc = JsonDocument.Parse(jsonResponse))
         {
-          // access the properties of each structure
-          JsonElement propertiesElement = structure.GetProperty("properties");
+          // access the FeatureCollection
+          JsonElement featureCollection = doc.RootElement.GetProperty("features");
 
-          // deserialize the properties JSON and create new Structure() object
-          Structure s = JsonSerializer.Deserialize<Structure>(propertiesElement.GetRawText());
-          ConsequenceReceptorProcess(s);
+          // iterate through the FeatureCollection
+          foreach (JsonElement structure in featureCollection.EnumerateArray())
+          {
+            // access the properties of each structure
+            JsonElement propertiesElement = structure.GetProperty("properties");
+
+            // deserialize the properties JSON and create new Structure() object
+            Structure s = JsonSerializer.Deserialize<Structure>(propertiesElement.GetRawText());
+            ConsequenceReceptorProcess(s);
+          }
         }
+      }
+      catch (HttpRequestException e)
+      {
+        Console.WriteLine($"Request error: {e.Message}");
       }
     }
   }
