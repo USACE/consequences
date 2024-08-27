@@ -19,6 +19,16 @@ public class NSIStreamingProcessor : IBBoxStreamingProcessor
     //await ProcessCollection(boundingBox, ConsequenceReceptorProcess);
   }
 
+  public async Task TestProcessStream(BoundingBox boundingBox, Action<IConsequencesReceptor> ConsequenceReceptorProcess)
+  {
+    await ProcessStream(boundingBox, ConsequenceReceptorProcess);
+  }
+
+  public async Task TestProcessCollection(BoundingBox boundingBox, Action<IConsequencesReceptor> ConsequenceReceptorProcess)
+  {
+    await ProcessCollection(boundingBox, ConsequenceReceptorProcess);
+  }
+
   private string ConstructURL(BoundingBox boundingBox, string directive)
   {
     StringBuilder url = new StringBuilder();
