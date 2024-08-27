@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection.Emit;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -18,10 +19,23 @@ public class NSIStreamingProcessor : IBBoxStreamingProcessor
     //await ProcessCollection(boundingBox, ConsequenceReceptorProcess);
   }
 
-  private static async Task ProcessCollection(BoundingBox boundingBox, Action<IConsequencesReceptor> ConsequenceReceptorProcess)
+  private string ConstructURL(BoundingBox boundingBox, string directive)
+  {
+    StringBuilder url = new StringBuilder();
+
+    url.Append("https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=");
+    url.Append(boundingBox.NSIFormat());
+
+    // directive to specify collection or stream
+    url.Append(directive);
+
+    return url.ToString();
+  }
+
+  private async Task ProcessCollection(BoundingBox boundingBox, Action<IConsequencesReceptor> ConsequenceReceptorProcess)
   {
     // endpoint URL
-    string apiUrl = "https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-81.58418,30.25165,-81.58161,30.26939,-81.55898,30.26939,-81.55281,30.24998,-81.58418,30.25165";
+    string apiUrl = ConstructURL(boundingBox, "&fmt=fc");
 
     using (HttpClient client = new HttpClient())
     {
@@ -56,10 +70,11 @@ public class NSIStreamingProcessor : IBBoxStreamingProcessor
     }
   }
 
-  private static async Task ProcessStream(BoundingBox boundingBox, Action<IConsequencesReceptor> ConsequenceReceptorProcess)
+  private async Task ProcessStream(BoundingBox boundingBox, Action<IConsequencesReceptor> ConsequenceReceptorProcess)
   {
     // endpoint URL
-    string apiURL = "https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-81.58418,30.25165,-81.58161,30.26939,-81.55898,30.26939,-81.55281,30.24998,-81.58418,30.25165&fmt=fs";
+    string apiURL = ConstructURL(boundingBox, "&fmt=fs");
+
     using (HttpClient httpClient = new HttpClient())
     {
       try
@@ -70,8 +85,10 @@ public class NSIStreamingProcessor : IBBoxStreamingProcessor
 
         using (StreamReader reader = new StreamReader(await response.Content.ReadAsStreamAsync()))
         {
+          // read in a line from the stream on by one
+          // each individual structure JSON is contained in one line
           string line;
-          while ((line = reader.ReadLine()) != null)
+          while ((line = await reader.ReadLineAsync()) != null)
           {
             //Console.WriteLine(line);
             //Console.WriteLine("********************");
