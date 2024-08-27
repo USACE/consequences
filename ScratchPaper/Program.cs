@@ -6,7 +6,8 @@ internal class Program
   {
     IBBoxStreamingProcessor sp = new NSIStreamingProcessor();
     await sp.Process(null, (IConsequencesReceptor s) => {
-
+      Console.WriteLine(((Structure)s).Name);
     });
+    Console.Read();
   }
 }
