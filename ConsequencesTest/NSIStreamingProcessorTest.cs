@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using USACE.HEC.Consequences;
+using USACE.HEC.Geography;
 using USACE.HEC.Hazards;
 using USACE.HEC.Results;
 
@@ -8,14 +9,16 @@ namespace ConsequencesTest;
 public class NSIStreamingProcessorTest
 {
   [Fact]
-  public void Test()
+  public async Task Test()
   {
     IBBoxStreamingProcessor sp = new NSIStreamingProcessor();
-    // int i = 0;
     IHazardProvider depthHazardProvider = new RandomDepthHazardProvider(25);
+    Location upperLeft1 = new Location { X = -122.475275, Y = 37.752394 };
+    Location lowerRight1 = new Location { X = -122.473523, Y = 37.750642 };
+    depthHazardProvider.Extent = new BoundingBox(upperLeft1, lowerRight1);
     IResultsWriter consoleWriter = new ConsoleWriter();
 
-    sp.Process(depthHazardProvider.Extent, (IConsequencesReceptor s) => {
+    await sp.Process(depthHazardProvider.Extent, (IConsequencesReceptor s) => {
       Result r = s.Compute(depthHazardProvider.Hazard(s.GetLocation()));
       consoleWriter.Write(r);
     });
