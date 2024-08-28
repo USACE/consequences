@@ -42,13 +42,13 @@ jobs:
       with:
         name: windows-x64-${{ env.VERSION }}
         path: |
-          "**/bin/Release/net8.0/win-x64/native/"
+          "Consequences/bin/Release/net8.0/win-x64/native/"
 
     - name: Attach Windows artifact to release
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: "**/bin/Release/net8.0/win-x64/native/"
+        asset_path: "Consequences/bin/Release/net8.0/win-x64/native/"
         asset_name: windows-x64-${{ env.VERSION }}.zip
         asset_content_type: application/zip
 
@@ -88,12 +88,12 @@ jobs:
       with:
         name: linux-x64-${{ env.VERSION }}
         path: |
-          "**/bin/Release/net8.0/linux-x64/native/"
+          "Consequences/bin/Release/net8.0/linux-x64/native/"
 
     - name: Attach Linux artifact to release
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: "**/bin/Release/net8.0/linux-x64/native/"
+        asset_path: "Consequences/bin/Release/net8.0/linux-x64/native/"
         asset_name: linux-x64-${{ env.VERSION }}.zip
         asset_content_type: application/zip
