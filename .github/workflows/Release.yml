@@ -21,6 +21,9 @@ jobs:
       with:
         dotnet-version: '8.x' 
 
+    - name: Restore dependencies
+      run: dotnet restore
+
     - name: Create version number
       shell: pwsh
       run: |
@@ -56,6 +59,9 @@ jobs:
       uses: actions/setup-dotnet@v4.0.1
       with:
         dotnet-version: '8.x' 
+
+    - name: Restore dependencies
+      run: dotnet restore
 
     - name: Create version number
       id: vars
