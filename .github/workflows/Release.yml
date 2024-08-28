@@ -30,7 +30,7 @@ jobs:
     - name: Create version number
       shell: pwsh
       run: |
-        $TAG = $env:GITHUB_REF -replace 'refs/tags/', ''
+        $TAG = 0.0.0
         $VERSION = $TAG -replace '^v', ''
         $VERSION = "$VERSION.$env:GITHUB_RUN_NUMBER"
         echo "VERSION=$VERSION" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
@@ -69,7 +69,7 @@ jobs:
     - name: Create version number
       id: vars
       run: |
-        TAG=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
+        TAG=$(0.0.0)
         VERSION=${TAG#v}
         echo "VERSION=${VERSION}.${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
 
