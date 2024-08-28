@@ -10,15 +10,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4.1.7
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4.0.1
       with:
-        dotnet-version: '8.x' # Adjust the .NET version as needed
-
-    - name: Restore dependencies
-      run: dotnet restore
+        dotnet-version: '8.x' 
 
     - name: Build for Windows x64
       run: dotnet publish -c Release -r win-x64 --self-contained -p:PublishAot=true
@@ -38,17 +35,17 @@ jobs:
       run: dotnet nuget push **/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
 
     - name: Upload Windows build artifact
-      uses: actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v4
       with:
         name: windows-x64-${{ env.VERSION }}
         path: |
-          "Consequences/bin/Release/net8.0/win-x64/native/"
+          "**/bin/Release/net8.0/win-x64/native/"
 
     - name: Attach Windows artifact to release
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: "Consequences/bin/Release/net8.0/win-x64/native/"
+        asset_path: "**/bin/Release/net8.0/win-x64/native/"
         asset_name: windows-x64-${{ env.VERSION }}.zip
         asset_content_type: application/zip
 
@@ -57,15 +54,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4.1.7
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4.0.1
       with:
-        dotnet-version: '8.x' # Adjust the .NET version as needed
-
-    - name: Restore dependencies
-      run: dotnet restore
+        dotnet-version: '8.x' 
 
     - name: Build for Linux x64
       run: dotnet publish -c Release -r linux-x64 --self-contained -p:PublishAot=true
@@ -84,16 +78,16 @@ jobs:
       run: dotnet nuget push **/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
 
     - name: Upload Linux build artifact
-      uses: actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v4
       with:
         name: linux-x64-${{ env.VERSION }}
         path: |
-          "./Consequences/bin/Release/net8.0/linux-x64/native/"
+          "**/bin/Release/net8.0/linux-x64/native/"
 
     - name: Attach Linux artifact to release
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: "./Consequences/bin/Release/net8.0/linux-x64/native/"
+        asset_path: "**/bin/Release/net8.0/linux-x64/native/"
         asset_name: linux-x64-${{ env.VERSION }}.zip
         asset_content_type: application/zip
