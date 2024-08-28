@@ -6,6 +6,7 @@
 		<IsAotCompatible>true</IsAotCompatible>
 		<PublishAot>true</PublishAot>
 		<RootNamespace>USACE.HEC</RootNamespace>
+		<AssemblyName>USACE.HEC.Consequences</AssemblyName>
 	</PropertyGroup>
 
 </Project>

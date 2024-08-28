@@ -1,0 +1,94 @@
+name: Publish NuGet Packages
+
+on:
+  release:
+    types: [published]
+
+env:
+  Project_Name: Consequences/Consequences.csproj
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4.1.7
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4.0.1
+      with:
+        dotnet-version: '8.x' 
+
+    - name: Create version number
+      shell: pwsh
+      run: |
+        $TAG = $env:GITHUB_REF -replace 'refs/tags/', ''
+        $VERSION = $TAG -replace '^v', ''
+        echo "VERSION=$VERSION" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+    - name: Build for Windows x64
+      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r win-x64 --self-contained -p:PublishAot=true /p:PackageVersion=${{ env.VERSION }}
+
+    - name: Pack NuGet packages
+      run: dotnet pack ${{ env.PROJECT_NAME }} -c Release /p:PackageVersion=${{ env.VERSION }}
+
+    - name: Publish NuGet packages to GitHub Packages
+      run: dotnet nuget push **/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
+
+    - name: Upload Windows build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64
+        path: ./Consequences/bin/Release/net8.0/win-x64/native/
+
+    - name: upload artifact to release
+      uses: actions/upload-release-asset@v1.0.2
+      with:
+        upload_url:  ${{ github.event.release.upload_url }}
+        asset_path: ./Consequences/bin/Release/net8.0/win-x64/native/USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64.zip
+        asset_name: USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64
+        asset_content_type: application/zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4.1.7
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4.0.1
+      with:
+        dotnet-version: '8.x' 
+
+    - name: Create version number
+      shell: bash
+      run: |
+        TAG=${GITHUB_REF#refs/tags/}
+        VERSION=${TAG#v}
+        echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+    - name: Build for Linux x64
+      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r linux-x64 --self-contained -p:PublishAot=true /p:PackageVersion=${{ env.VERSION }}
+
+    - name: Pack NuGet packages
+      run: dotnet pack ${{ env.PROJECT_NAME }} -c Release /p:PackageVersion=${{ env.VERSION }}
+
+    - name: Publish NuGet packages to GitHub Packages
+      run: dotnet nuget push **/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
+
+    - name: Upload Linux build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64
+        path: ./Consequences/bin/Release/net8.0/linux-x64/native/
+
+    - name: upload artifact to release
+      uses: actions/upload-release-asset@v1.0.2
+      with:
+        upload_url:  ${{ github.event.release.upload_url }}
+        asset_path: ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64.zip 
+        asset_name: USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64
+        asset_content_type: application/zip
+

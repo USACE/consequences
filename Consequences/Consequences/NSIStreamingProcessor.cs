@@ -47,6 +47,7 @@ public class NSIStreamingProcessor : IBBoxStreamingProcessor
     // endpoint URL
     string apiUrl = ConstructURL(boundingBox, "&fmt=fc");
 
+    // Create an instance of HttpClient
     using (HttpClient client = new HttpClient())
     {
       try
@@ -116,6 +117,7 @@ public class NSIStreamingProcessor : IBBoxStreamingProcessor
       }
       catch (Exception e)
       {
+        // Handle any errors that occur during the request
         Console.WriteLine($"Request error: {e.Message}");
       }
     }
