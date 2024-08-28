@@ -1,9 +1,9 @@
 name: Publish NuGet Packages
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
+
 env:
   Project_Name: Consequences/Consequences.csproj
 
@@ -21,12 +21,12 @@ jobs:
         dotnet-version: '8.x' 
 
     - name: Create version number
-      shell: bash
+      shell: pwsh
       run: |
-        BRANCH=$(echo $GITHUB_REF | sed 's/refs\/heads\///')
-        BRANCH=$(echo $BRANCH | sed 's/[^a-zA-Z0-9]/-/g')
-        VERSION="1.0.0-$BRANCH-$GITHUB_RUN_NUMBER"
-        echo "VERSION=${VERSION}" >> $GITHUB_ENV
+        $TAG = $env:GITHUB_REF -replace 'refs/tags/', ''
+        $VERSION = $TAG -replace '^v', ''
+        $VERSION = "$VERSION.$env:GITHUB_RUN_NUMBER"
+        echo "VERSION=$VERSION" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
     - name: Build for Windows x64
       run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r win-x64 --self-contained -p:PublishAot=true /p:PackageVersion=${{ env.VERSION }}
@@ -56,7 +56,7 @@ jobs:
         dotnet-version: '8.x' 
 
     - name: Create version number
-      id: create_version
+      shell: bash
       run: |
         BRANCH=$(echo $GITHUB_REF | sed 's/refs\/heads\///')
         BRANCH=$(echo $BRANCH | sed 's/[^a-zA-Z0-9]/-/g')
