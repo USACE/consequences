@@ -42,8 +42,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: windows-x64-${{ env.VERSION }}
-        path: |
-          "D:/a/consequences/consequences/Consequences/bin/Release/net8.0/win-x64/native/USACE.HEC.Consequences.dll"
+        path: D:/a/consequences/consequences/Consequences/bin/Release/net8.0/win-x64/native/USACE.HEC.Consequences.dll
 
     - name: List all files
       shell: pwsh
@@ -83,8 +82,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: linux-x64-${{ env.VERSION }}
-        path: |
-          "./Consequences/bin/Release/net8.0/linux-x64/native/"
+        path: ./Consequences/bin/Release/net8.0/linux-x64/native/
 
     - name: List all files
       shell: bash
