@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  build-and-publish:
+  build-windows:
     runs-on: windows-latest
 
     steps:
@@ -23,10 +23,8 @@ jobs:
     - name: Build for Windows x64
       run: dotnet publish -c Release -r win-x64 --self-contained -p:PublishAot=true
 
-    - name: Build for Linux x64
-      run: dotnet publish -c Release -r linux-x64 --self-contained -p:PublishAot=true
-
     - name: Create version number
+      id: vars
       run: |
         TAG=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
         VERSION=${TAG#v}
@@ -43,14 +41,7 @@ jobs:
       with:
         name: windows-x64-${{ env.VERSION }}
         path: |
-          **/bin/Release/net8.0/win-x64/publish/
-
-    - name: Upload Linux build artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: linux-x64-${{ env.VERSION }}
-        path: |
-          **/bin/Release/net8.0/linux-x64/publish/
+          "**/bin/Release/net8.0/win-x64/publish/"
 
     - name: Attach Windows artifact to release
       uses: actions/upload-release-asset@v1
@@ -59,6 +50,44 @@ jobs:
         asset_path: "**/bin/Release/net8.0/win-x64/publish/"
         asset_name: windows-x64-${{ env.VERSION }}.zip
         asset_content_type: application/zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '8.x' # Adjust the .NET version as needed
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build for Linux x64
+      run: dotnet publish -c Release -r linux-x64 --self-contained -p:PublishAot=true
+
+    - name: Create version number
+      id: vars
+      run: |
+        TAG=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
+        VERSION=${TAG#v}
+        echo "VERSION=${VERSION}.${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+
+    - name: Pack NuGet packages
+      run: dotnet pack -c Release /p:PackageVersion=${{ env.VERSION }}
+
+    - name: Publish NuGet packages to GitHub Packages
+      run: dotnet nuget push **/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+    - name: Upload Linux build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-x64-${{ env.VERSION }}
+        path: |
+          "**/bin/Release/net8.0/linux-x64/publish/"
 
     - name: Attach Linux artifact to release
       uses: actions/upload-release-asset@v1
