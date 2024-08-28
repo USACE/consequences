@@ -45,6 +45,11 @@ jobs:
         path: |
           "**/bin/Release/net8.0/win-x64/publish/"
 
+    - name: List all files
+      shell: pwsh
+      run: |
+        Get-ChildItem -Recurse -File | ForEach-Object { Write-Output $_.FullName }
+
   build-linux:
     runs-on: ubuntu-latest
 
@@ -80,4 +85,8 @@ jobs:
         name: linux-x64-${{ env.VERSION }}
         path: |
           "**/bin/Release/net8.0/linux-x64/publish/"
+    - name: List all files
+      shell: bash
+      run: |
+        find . -type f -print
 
