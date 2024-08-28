@@ -38,7 +38,7 @@ jobs:
       run: dotnet nuget push **/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
 
     - name: Upload Windows build artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: windows-x64-${{ env.VERSION }}
         path: |
@@ -84,16 +84,16 @@ jobs:
       run: dotnet nuget push **/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
 
     - name: Upload Linux build artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: linux-x64-${{ env.VERSION }}
         path: |
-          "Consequences/bin/Release/net8.0/linux-x64/native/"
+          "./Consequences/bin/Release/net8.0/linux-x64/native/"
 
     - name: Attach Linux artifact to release
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: "Consequences/bin/Release/net8.0/linux-x64/native/"
+        asset_path: "./Consequences/bin/Release/net8.0/linux-x64/native/"
         asset_name: linux-x64-${{ env.VERSION }}.zip
         asset_content_type: application/zip
