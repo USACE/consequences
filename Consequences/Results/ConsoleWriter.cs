@@ -27,7 +27,7 @@ public class ConsoleWriter : IResultsWriter
 
   public string WriteString(Result res)
   {
-    StringBuilder output = new StringBuilder();
+    StringBuilder output = new();
     if (!hasHeaderWritten)
     {
       // write the headers to the top of the file

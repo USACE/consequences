@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.Transactions;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Serialization;
+﻿using System.Text.Json;
 using USACE.HEC.Consequences;
-using USACE.HEC.Geography;
 using USACE.HEC.Hazards;
 using USACE.HEC.Results;
 
 namespace ConsequencesTest;
+
 public class NSIStreamingProcessorTest
 {
   [Fact]
@@ -48,76 +41,4 @@ public class NSIStreamingProcessorTest
     }
     Assert.Equal(498054345, s?.Name);
   }
-
-  [Fact]
-  public void ProcessCollection()
-  {;
-    IBBoxStreamingProcessor sp = new NSIStreamingProcessor();
-    sp.Process(null, (IConsequencesReceptor s) => {
-
-    });
-    
-  }
-  /*
-  [Fact]
-  public static async Task Ping()
-  {
-    // endpoint URL
-    string apiUrl = "https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-81.58418,30.25165,-81.58161,30.26939,-81.55898,30.26939,-81.55281,30.24998,-81.58418,30.25165";
-
-    using (var client = new HttpClient())
-    {
-      // get the json from the NSI
-      string jsonResponse = await client.GetStringAsync(apiUrl);
-
-      int count = 0;
-      using (JsonDocument doc = JsonDocument.Parse(jsonResponse))
-      {
-        // access the FeatureCollection
-        JsonElement featureCollection = doc.RootElement.GetProperty("features");
-
-        // iterate through the FeatureCollection
-        foreach (JsonElement structure in featureCollection.EnumerateArray())
-        {
-          // access the properties of each structure
-          JsonElement propertiesElement = structure.GetProperty("properties");
-
-          // deserialize the properties JSON and create new Structure() object
-          Structure? s = JsonSerializer.Deserialize<Structure>(propertiesElement.GetRawText());
-          count++;
-        }
-      }
-      Assert.Equal(2735, count);
-    }
-  }
-
-  [Fact]
-  public static async Task ProcessCollection()
-  {
-    // endpoint URL
-    string apiUrl = "https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-81.58418,30.25165,-81.58161,30.26939,-81.55898,30.26939,-81.55281,30.24998,-81.58418,30.25165";
-
-    using (var client = new HttpClient())
-    {
-      // get the json from the NSI
-      string jsonResponse = await client.GetStringAsync(apiUrl);
-
-      using (JsonDocument doc = JsonDocument.Parse(jsonResponse))
-      {
-        // access the FeatureCollection
-        JsonElement featureCollection = doc.RootElement.GetProperty("features");
-
-        // iterate through the FeatureCollection
-        foreach (JsonElement structure in featureCollection.EnumerateArray())
-        {
-          // access the properties of each structure
-          JsonElement propertiesElement = structure.GetProperty("properties");
-
-          // deserialize the properties JSON and create new Structure() object
-          Structure? s = JsonSerializer.Deserialize<Structure>(propertiesElement.GetRawText());
-        }
-      }
-    }
-  }
-  */
 }
