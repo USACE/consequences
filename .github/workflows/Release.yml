@@ -22,7 +22,7 @@ jobs:
         dotnet-version: '8.x' 
 
     - name: Create version number
-      id: create_version
+      shell: bash
       run: |
         BRANCH=$(echo $GITHUB_REF | sed 's/refs\/heads\///')
         BRANCH=$(echo $BRANCH | sed 's/[^a-zA-Z0-9]/-/g')
