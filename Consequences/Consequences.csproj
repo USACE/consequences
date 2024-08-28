@@ -5,6 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<IsAotCompatible>true</IsAotCompatible>
 		<RootNamespace>USACE.HEC</RootNamespace>
+		<AssemblyName>USACE.HEC.Consequences</AssemblyName>
 	</PropertyGroup>
 
 </Project>
