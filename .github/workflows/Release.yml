@@ -42,11 +42,6 @@ jobs:
         name: USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64
         path: ./Consequences/bin/Release/net8.0/win-x64/native/
 
-    - name: Zip Windows artifact
-      run: |
-          cd ./Consequences/bin/Release/net8.0/win-x64/native/
-          zip -r USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64.zip 
-
     - name: upload artifact to release
       uses: actions/upload-release-asset@v1.0.2
       with:
@@ -88,11 +83,6 @@ jobs:
       with:
         name: USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64
         path: ./Consequences/bin/Release/net8.0/linux-x64/native/
-
-    - name: Zip Linux artifact
-      run: |
-          cd ./Consequences/bin/Release/net8.0/linux-x64/native/
-          zip -r USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64.zip 
 
     - name: upload artifact to release
       uses: actions/upload-release-asset@v1.0.2
