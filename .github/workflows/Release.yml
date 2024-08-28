@@ -24,11 +24,12 @@ jobs:
       run: dotnet publish -c Release -r win-x64 --self-contained -p:PublishAot=true
 
     - name: Create version number
-      id: vars
+      shell: pwsh
       run: |
-        TAG=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
-        VERSION=${TAG#v}
-        echo "VERSION=${VERSION}.${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+        $TAG = $env:GITHUB_REF -replace 'refs/tags/', ''
+        $VERSION = $TAG -replace '^v', ''
+        $VERSION = "$VERSION.$env:GITHUB_RUN_NUMBER"
+        echo "VERSION=$VERSION" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
     - name: Pack NuGet packages
       run: dotnet pack -c Release /p:PackageVersion=${{ env.VERSION }}
