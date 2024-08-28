@@ -15,8 +15,6 @@ public class Result
       if (ResultItems[i].ResultName == name)
         return ResultItems[i];
     // return empty ResultItem if not found
-    ResultItem item = new ResultItem();
-    item.ResultName = name;
-    return item;
+    return new ResultItem { ResultName = name };
   }
 }

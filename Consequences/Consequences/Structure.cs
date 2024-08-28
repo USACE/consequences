@@ -67,7 +67,7 @@ public class Structure : IConsequencesReceptor
 
   public Result Compute(IHazard hazard) 
   {
-    List<ResultItem> resultItems = new List<ResultItem>();
+    List<ResultItem> resultItems = [];
 
     if (hazard.Has(HazardParameter.Depth))
     {
@@ -101,6 +101,6 @@ public class Structure : IConsequencesReceptor
                                      });
     }
 
-    return new Result(resultItems.ToArray());
+    return new Result([.. resultItems]);
   }
 }
