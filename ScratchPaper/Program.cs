@@ -12,7 +12,7 @@ internal class Program
 
 
     Location upperLeft2 = new Location { X = -122.5, Y = 37.8 };
-    Location lowerRight2 = new Location { X = -121.5, Y = 36.8 };
+    Location lowerRight2 = new Location { X = -122, Y = 37.3 };
     BoundingBox boundingBox2 = new BoundingBox(upperLeft2, lowerRight2);
 
     IBBoxStreamingProcessor sp = new NSIStreamingProcessor();
