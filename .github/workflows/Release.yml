@@ -43,7 +43,7 @@ jobs:
       with:
         name: windows-x64-${{ env.VERSION }}
         path: |
-          "**/bin/Release/net8.0/win-x64/publish/"
+          "D:/a/consequences/consequences/Consequences/bin/Release/net8.0/win-x64/native/USACE.HEC.Consequences.dll"
 
     - name: List all files
       shell: pwsh
@@ -84,7 +84,8 @@ jobs:
       with:
         name: linux-x64-${{ env.VERSION }}
         path: |
-          "**/bin/Release/net8.0/linux-x64/publish/"
+          "./Consequences/bin/Release/net8.0/linux-x64/native/"
+
     - name: List all files
       shell: bash
       run: |
