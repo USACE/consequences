@@ -43,11 +43,9 @@ jobs:
         path: ./Consequences/bin/Release/net8.0/win-x64/native/
 
     - name: upload windows artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+      uses: actions/upload-release-asset@v1.0.2
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url:  ${{ github.event.release.upload_url }}
         asset_path: ./Consequences/bin/Release/net8.0/win-x64/native/
         asset_name: USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64
         asset_content_type: application/zip
@@ -87,11 +85,9 @@ jobs:
         path: ./Consequences/bin/Release/net8.0/linux-x64/native/
     
     - name: upload windows artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+      uses: actions/upload-release-asset@v1.0.2
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url:  ${{ github.event.release.upload_url }}
         asset_path: ./Consequences/bin/Release/net8.0/linux-x64/native/
         asset_name: USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64
         asset_content_type: application/zip
