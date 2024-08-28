@@ -11,7 +11,6 @@ jobs:
   build-windows:
     runs-on: windows-latest
 
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4.1.7
@@ -30,7 +29,7 @@ jobs:
         echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
     - name: Build for Windows x64
-      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r win-x64 --self-contained -p:PublishAot=true
+      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r win-x64 --self-contained -p:PublishAot=true /p:PackageVersion=${{ env.VERSION }}
 
     - name: Pack NuGet packages
       run: dotnet pack ${{ env.PROJECT_NAME }} -c Release /p:PackageVersion=${{ env.VERSION }}
@@ -65,7 +64,7 @@ jobs:
         echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
     - name: Build for Linux x64
-      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r linux-x64 --self-contained -p:PublishAot=true
+      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r linux-x64 --self-contained -p:PublishAot=true /p:PackageVersion=${{ env.VERSION }}
 
     - name: Pack NuGet packages
       run: dotnet pack ${{ env.PROJECT_NAME }} -c Release /p:PackageVersion=${{ env.VERSION }}
