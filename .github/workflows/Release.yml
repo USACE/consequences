@@ -1,8 +1,9 @@
 name: Publish NuGet Packages
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*.*.*"
 
 env:
   Project_Name: Consequences/Consequences.csproj
@@ -42,13 +43,18 @@ jobs:
         name: USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64
         path: ./Consequences/bin/Release/net8.0/win-x64/native/
 
-    - name: upload artifact to release
-      uses: actions/upload-release-asset@v1.0.2
+    - name: Print all file paths
+      shell: pwsh
+      run: |
+        $root_path = Get-Location
+        Get-ChildItem -Path $root_path -Recurse | Where-Object {!$_.PSIsContainer} | ForEach-Object {
+            $_.FullName.Replace("$root_path\", "")
+        }
+    - name: Release
+      uses: softprops/action-gh-release@v2
       with:
-        upload_url:  ${{ github.event.release.upload_url }}
-        asset_path: ./Consequences/bin/Release/net8.0/win-x64/native/USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64.zip
-        asset_name: USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64
-        asset_content_type: application/zip
+        files: |
+          ./Consequences/bin/Release/net8.0/win-x64/native/
 
   build-linux:
     runs-on: ubuntu-latest
