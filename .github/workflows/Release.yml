@@ -42,14 +42,6 @@ jobs:
       with:
         name: USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64
         path: ./Consequences/bin/Release/net8.0/win-x64/native/
-
-    - name: Print all file paths
-      shell: pwsh
-      run: |
-        $root_path = Get-Location
-        Get-ChildItem -Path $root_path -Recurse | Where-Object {!$_.PSIsContainer} | ForEach-Object {
-            $_.FullName.Replace("$root_path\", "")
-        }
     
     - name: Zip Release Package
       shell: pwsh
@@ -96,15 +88,10 @@ jobs:
         name: USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64
         path: ./Consequences/bin/Release/net8.0/linux-x64/native/
 
-    - name: Print all file paths
-      shell: bash
-      run: |
-        find $(pwd) -type f | sed "s|$(pwd)/||"
-
     - name: Zip Release Package
       shell: bash
       run: |
-        zip -r ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-${env:VERSION}-linux-x64.zip ./Consequences/bin/Release/net8.0/linux-x64/native/
+        zip -r ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-${{ env:VERSION }}-linux-x64.zip ./Consequences/bin/Release/net8.0/linux-x64/native/
 
     - name: Release
       uses: softprops/action-gh-release@v2
