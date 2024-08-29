@@ -50,11 +50,18 @@ jobs:
         Get-ChildItem -Path $root_path -Recurse | Where-Object {!$_.PSIsContainer} | ForEach-Object {
             $_.FullName.Replace("$root_path\", "")
         }
+    
+    - name: Zip Release Package
+      shell: pwsh
+      run: |
+        $root_path = Get-Location
+        Compress-Archive -Path $root_path/Consequences/bin/Release/net8.0/win-x64/native/ -DestinationPath $root_path/Consequences/bin/Release/net8.0/win-x64/native/USACE.HEC.Consequences-${env:VERSION}-windows-x64.zip
+
     - name: Release
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          ./Consequences/bin/Release/net8.0/win-x64/native/
+          $root_path/Consequences/bin/Release/net8.0/win-x64/native/USACE.HEC.Consequences-${env:VERSION}-windows-x64.zip
 
   build-linux:
     runs-on: ubuntu-latest
@@ -90,11 +97,13 @@ jobs:
         name: USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64
         path: ./Consequences/bin/Release/net8.0/linux-x64/native/
 
-    - name: upload artifact to release
-      uses: actions/upload-release-asset@v1.0.2
-      with:
-        upload_url:  ${{ github.event.release.upload_url }}
-        asset_path: ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64.zip 
-        asset_name: USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64
-        asset_content_type: application/zip
+    - name: Print all file paths
+      shell: bash
+      run: |
+        find $(pwd) -type f | sed "s|$(pwd)/||"
+
+    - name: Zip Release Package
+      shell: bash
+      run: |
+        zip -r ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-${env:VERSION}-linux-x64.zip ./Consequences/bin/Release/net8.0/linux-x64/native/
 
