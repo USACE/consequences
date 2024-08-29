@@ -61,7 +61,7 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          $root_path/Consequences/bin/Release/net8.0/win-x64/native/USACE.HEC.Consequences-${env:VERSION}-windows-x64.zip
+          USACE.HEC.Consequences-${env:VERSION}-windows-x64.zip
 
   build-linux:
     runs-on: ubuntu-latest
@@ -111,4 +111,4 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-${env:VERSION}-linux-x64.zip
+          USACE.HEC.Consequences-${env:VERSION}-linux-x64.zip
