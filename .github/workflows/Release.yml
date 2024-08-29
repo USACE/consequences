@@ -91,7 +91,7 @@ jobs:
     - name: Zip Release Package
       shell: bash
       run: |
-        zip -r ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-$env.VERSION-linux-x64.zip ./Consequences/bin/Release/net8.0/linux-x64/native/
+        zip -r ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-{{$env.VERSION}}-linux-x64.zip ./Consequences/bin/Release/net8.0/linux-x64/native/
 
     - name: Release
       uses: softprops/action-gh-release@v2
