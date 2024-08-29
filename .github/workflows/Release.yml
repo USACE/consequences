@@ -107,3 +107,8 @@ jobs:
       run: |
         zip -r ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-${env:VERSION}-linux-x64.zip ./Consequences/bin/Release/net8.0/linux-x64/native/
 
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-${env:VERSION}-linux-x64.zip
