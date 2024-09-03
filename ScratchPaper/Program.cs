@@ -1,10 +1,12 @@
 ﻿using USACE.HEC.Consequences;
 using USACE.HEC.Geography;
+using Geospatial;
 
 internal class Program
 {
   private static async Task Main(string[] args)
   {
+    /*
     // city block in Sunset District, SF
     Location upperLeft1 = new Location { X = -122.475275, Y = 37.752394 };
     Location lowerRight1 = new Location { X = -122.473523, Y = 37.750642 };
@@ -19,7 +21,7 @@ internal class Program
 
     int count = 0;
     var watch = System.Diagnostics.Stopwatch.StartNew();
-    await sp.Process(boundingBox2, (IConsequencesReceptor s) => {
+    await sp.Process(boundingBox1, (IConsequencesReceptor s) => {
       //Console.WriteLine(((Structure)s).Name);
       count++;
     });
@@ -28,6 +30,14 @@ internal class Program
 
     Console.WriteLine(count);
     Console.WriteLine("Time elapsed: " + elapsedMs.ToString() + " milliseconds");
-    Console.Read(); 
+    Console.Read();
+    */
+    Method();
+  }
+
+  public static void Method()
+  {
+    TestClass c = new TestClass();
+    c.Do();
   }
 }

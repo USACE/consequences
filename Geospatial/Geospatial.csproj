@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaxRev.Gdal.Universal" Version="3.9.1.247" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Consequences\Consequences.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="nsi_2022_44.gpkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
