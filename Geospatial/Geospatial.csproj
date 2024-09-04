@@ -15,10 +15,4 @@
     <ProjectReference Include="..\Consequences\Consequences.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="nsi_2022_44.gpkg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

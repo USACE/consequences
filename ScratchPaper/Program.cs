@@ -4,7 +4,7 @@ using Geospatial;
 
 internal class Program
 {
-  private static async Task Main(string[] args)
+  private static void Main(string[] args)
   {
     /*
     // city block in Sunset District, SF
@@ -32,12 +32,14 @@ internal class Program
     Console.WriteLine("Time elapsed: " + elapsedMs.ToString() + " milliseconds");
     Console.Read();
     */
-    Method();
+    SpatialReader reader = new SpatialReader();
+    reader.Read();
+    //Method();
   }
 
   public static void Method()
   {
-    TestClass c = new TestClass();
-    c.Do();
+    SpatialWriter c = new SpatialWriter();
+    c.WriteToOGR();
   }
 }
