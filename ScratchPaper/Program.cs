@@ -32,8 +32,9 @@ internal class Program
     Console.WriteLine("Time elapsed: " + elapsedMs.ToString() + " milliseconds");
     Console.Read();
     */
-    SpatialReader reader = new SpatialReader();
-    reader.Read();
+
+    OgrDriverStructureProcessor reader = new OgrDriverStructureProcessor();
+    reader.Process(@"C:\Data\Muncie_WS6_Solution_PART2\Muncie_WS6_Part1_Solution_PART2\Muncie_WS6_Part1_Solution\Structure Inventories\Existing_BaseSI\BaseMuncieStructsFinal.shp", null);
     //Method();
   }
 

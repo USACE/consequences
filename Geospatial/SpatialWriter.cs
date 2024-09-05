@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MaxRev.Gdal.Core;
 
-//using MaxRev.Gdal.Core;
 using OSGeo.GDAL;
 using OSGeo.OGR;
 using OSGeo.OSR;
 
 namespace Geospatial;
-public class SpatialWriter
+public class SpatialWriter 
 {
   public void WriteToOGR()
   {
-    GdalBase.ConfigureAll();
+    Gdal.AllRegister();
     Ogr.RegisterAll();
 
     string outputPath = @"C:\repos\consequences\ScratchPaper\Files\example.shp";

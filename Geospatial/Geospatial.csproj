@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MaxRev.Gdal.Universal" Version="3.9.1.247" />
+    <PackageReference Include="Geospatial.GDALAssist" Version="1.0.845-beta" />
   </ItemGroup>
 
   <ItemGroup>
