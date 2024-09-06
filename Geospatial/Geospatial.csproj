@@ -8,11 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Geospatial.GDALAssist" Version="1.0.845-beta" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
   </ItemGroup>
+
+  <!--<ItemGroup>
+    <PackageReference Include="Geospatial.GDALAssist" Version="1.0.845-beta" />
+  </ItemGroup>-->
+	
+	
 
   <ItemGroup>
     <ProjectReference Include="..\Consequences\Consequences.csproj" />
+  </ItemGroup>
+	
+	
+
+  <ItemGroup>
+    <Reference Include="Geospatial.GDALAssist">
+      <HintPath>..\..\..\Users\HEC\Downloads\GDAL\Geospatial.GDALAssist.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

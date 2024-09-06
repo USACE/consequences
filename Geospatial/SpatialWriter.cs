@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using OSGeo.GDAL;
-using OSGeo.OGR;
+﻿using OSGeo.OGR;
 using OSGeo.OSR;
+using USACE.HEC.Results;
 
 namespace Geospatial;
-public class SpatialWriter 
+
+
+public class SpatialWriter : IResultsWriter
 {
-  public void WriteToOGR()
+  public void Write(Result res)
   {
-    Gdal.AllRegister();
-    Ogr.RegisterAll();
+    GDALAssist.GDALSetup.InitializeMultiplatform(@"C:\Users\HEC\Downloads\GDAL\GDAL");
 
-    string outputPath = @"C:\repos\consequences\ScratchPaper\Files\example.shp";
+    string outputPath = @"C:\repos\consequences\ScratchPaper\Files\example.shp"; 
 
-    var driver = Ogr.GetDriverByName("ESRI Shapefile");
+    using Driver driver = Ogr.GetDriverByName("ESRI Shapefile");
 
     using (DataSource dataSource = driver.CreateDataSource(outputPath, null))
     {
@@ -41,11 +36,21 @@ public class SpatialWriter
         Console.WriteLine("Failed to create layer.");
         return;
       }
+      foreach (ResultItem item in res.ResultItems)
+      {
+        FieldDefn fieldDefn;
+        switch (item.Result)
+        {
+          case int:
+            fieldDefn = new FieldDefn(item.ResultName, FieldType.OFTInteger);
+            break;
+          default:
+            break;
+        }
+        
+        layer.CreateField(fieldDefn, 1);
+      }
 
-      FieldDefn fieldDefn1 = new FieldDefn("Field1", FieldType.OFTInteger);
-      FieldDefn fieldDefn2 = new FieldDefn("Field2", FieldType.OFTString);
-      layer.CreateField(fieldDefn1, 1);
-      layer.CreateField(fieldDefn2, 1);
 
       // Create a new feature
       Feature feature = new Feature(layer.GetLayerDefn());
@@ -64,7 +69,29 @@ public class SpatialWriter
       layer.CreateFeature(feature);
       feature.Dispose();
       geometry.Dispose();
+
+      // Create a new feature
+      Feature feature2 = new Feature(layer.GetLayerDefn());
+
+      // Set geometry for the feature (e.g., a point)
+      Geometry geometry2 = new Geometry(wkbGeometryType.wkbPoint);
+      geometry2.AddPoint(38.554, -121.7, 0);  // Add coordinates
+
+      CoordinateTransformation ct2 = new CoordinateTransformation(srs, dst);
+      geometry2.Transform(ct2);
+      feature2.SetGeometry(geometry);
+
+      feature2.SetField("Field1", 12);
+      feature2.SetField("Field2", "Hello");
+
+      layer.CreateFeature(feature2);
+      feature2.Dispose();
+      geometry2.Dispose();
     }
-    Ogr.GetDriverByName("ESRI Shapefile")?.Dispose();
+  }
+
+  public void Dispose()
+  {
+
   }
 }

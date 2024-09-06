@@ -1,6 +1,8 @@
 ﻿using USACE.HEC.Consequences;
 using USACE.HEC.Geography;
 using Geospatial;
+using USACE.HEC.Results;
+using USACE.HEC.Hazards;
 
 internal class Program
 {
@@ -32,7 +34,21 @@ internal class Program
     Console.WriteLine("Time elapsed: " + elapsedMs.ToString() + " milliseconds");
     Console.Read();
     */
+    Write();
+    
+  }
 
+  public static void Write()
+  {
+    SpatialWriter c = new SpatialWriter();
+    Structure structure = new Structure();
+    DepthHazard haz = new DepthHazard(0.14f);
+    Result res = structure.Compute(haz);
+    c.Write(res);
+  }
+
+  public static void Read()
+  {
     SpatialStructureProcessor reader = new SpatialStructureProcessor();
     string path = @"C:\Data\Muncie_WS6_Solution_PART2\Muncie_WS6_Part1_Solution_PART2\Muncie_WS6_Part1_Solution\Structure Inventories\Existing_BaseSI\BaseMuncieStructsFinal.shp";
     int count = 0;
@@ -41,11 +57,5 @@ internal class Program
       count++;
     });
     Console.WriteLine(count);
-  }
-
-  public static void Method()
-  {
-    SpatialWriter c = new SpatialWriter();
-    c.WriteToOGR();
   }
 }
