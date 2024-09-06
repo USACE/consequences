@@ -33,9 +33,14 @@ internal class Program
     Console.Read();
     */
 
-    OgrDriverStructureProcessor reader = new OgrDriverStructureProcessor();
-    reader.Process(@"C:\Data\Muncie_WS6_Solution_PART2\Muncie_WS6_Part1_Solution_PART2\Muncie_WS6_Part1_Solution\Structure Inventories\Existing_BaseSI\BaseMuncieStructsFinal.shp", null);
-    //Method();
+    SpatialStructureProcessor reader = new SpatialStructureProcessor();
+    string path = @"C:\Data\Muncie_WS6_Solution_PART2\Muncie_WS6_Part1_Solution_PART2\Muncie_WS6_Part1_Solution\Structure Inventories\Existing_BaseSI\BaseMuncieStructsFinal.shp";
+    int count = 0;
+    reader.Process(path, (IConsequencesReceptor s) => {
+      Console.WriteLine(((Structure)s).Name);
+      count++;
+    });
+    Console.WriteLine(count);
   }
 
   public static void Method()
