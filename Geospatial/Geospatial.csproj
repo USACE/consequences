@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+	  <PackageReference Include="Geospatial.GDALAssist" Version="0.1.0-Beta" />
   </ItemGroup>
 
   <!--<ItemGroup>
@@ -23,10 +23,10 @@
 	
 	
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <Reference Include="Geospatial.GDALAssist">
       <HintPath>..\..\..\Users\HEC\Downloads\GDAL\Geospatial.GDALAssist.dll</HintPath>
     </Reference>
-  </ItemGroup>
+  </ItemGroup>-->
 
 </Project>

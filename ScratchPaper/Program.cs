@@ -6,9 +6,9 @@ using USACE.HEC.Hazards;
 
 internal class Program
 {
-  private static void Main(string[] args)
+  private async static Task Main(string[] args)
   {
-    /*
+    
     // city block in Sunset District, SF
     Location upperLeft1 = new Location { X = -122.475275, Y = 37.752394 };
     Location lowerRight1 = new Location { X = -122.473523, Y = 37.750642 };
@@ -19,31 +19,25 @@ internal class Program
     Location lowerRight2 = new Location { X = -122, Y = 37.3 };
     BoundingBox boundingBox2 = new BoundingBox(upperLeft2, lowerRight2);
 
-    IBBoxStreamingProcessor sp = new NSIStreamingProcessor();
-
+    NSIStreamingProcessor sp = new NSIStreamingProcessor();
+    using SpatialWriter c = new SpatialWriter("ESRI Shapefile", 3310);
     int count = 0;
-    var watch = System.Diagnostics.Stopwatch.StartNew();
+
     await sp.Process(boundingBox1, (IConsequencesReceptor s) => {
-      //Console.WriteLine(((Structure)s).Name);
+      Console.WriteLine(((Structure)s).Name);
+      Result res = ((Structure)s).ToResult();
+      c.Write(res);
       count++;
     });
-    watch.Stop();
-    var elapsedMs = watch.ElapsedMilliseconds;
-
     Console.WriteLine(count);
-    Console.WriteLine("Time elapsed: " + elapsedMs.ToString() + " milliseconds");
     Console.Read();
-    */
-    Write();
-    
   }
 
   public static void Write()
   {
-    SpatialWriter c = new SpatialWriter();
+    SpatialWriter c = new SpatialWriter("ESRI Shapefile", 3310);
     Structure structure = new Structure();
-    DepthHazard haz = new DepthHazard(0.14f);
-    Result res = structure.Compute(haz);
+    Result res = structure.ToResult();
     c.Write(res);
   }
 

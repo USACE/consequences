@@ -7,86 +7,100 @@ namespace Geospatial;
 
 public class SpatialWriter : IResultsWriter
 {
+  private Layer? _layer;
+  private DataSource? _dataSource;
+  private SpatialReference? _srs;
+  private SpatialReference? _dst;
+  private bool _headersWritten;
+
+  public SpatialWriter(string driverName, int projection)
+  {
+    GDALAssist.GDALSetup.InitializeMultiplatform();
+    string outputPath = @"C:\repos\consequences\ScratchPaper\Files\example.shp";
+    _dataSource = Ogr.GetDriverByName(driverName).CreateDataSource(outputPath, null);
+    if (_dataSource == null) { Console.WriteLine("Failed to create data source."); return; }
+
+    _srs = new SpatialReference("");
+    _srs.SetWellKnownGeogCS("WGS84");
+    if (_srs == null) { Console.WriteLine("Failed to create source SpatialReference."); return; }
+    _dst = new SpatialReference("");
+    _dst.ImportFromEPSG(projection);
+    if (_dst == null) { Console.WriteLine("Failed to create destination SpatialReference."); return; }
+
+    _layer = _dataSource.CreateLayer("layer_name", _dst, wkbGeometryType.wkbPoint, null);
+    if (_layer == null) { Console.WriteLine("Failed to create layer."); return; }
+
+    _headersWritten = false;
+  }
+
   public void Write(Result res)
   {
-    GDALAssist.GDALSetup.InitializeMultiplatform(@"C:\Users\HEC\Downloads\GDAL\GDAL");
-
-    string outputPath = @"C:\repos\consequences\ScratchPaper\Files\example.shp"; 
-
-    using Driver driver = Ogr.GetDriverByName("ESRI Shapefile");
-
-    using (DataSource dataSource = driver.CreateDataSource(outputPath, null))
+    if (_layer == null)
     {
-      if (dataSource == null)
+      return;
+    }
+
+    if (!_headersWritten)
+    {
+      InitializeFields(_layer, res);
+
+      _headersWritten= true;
+    }
+
+    Feature feature = new Feature(_layer.GetLayerDefn());
+
+    // Set geometry for the feature (e.g., a point)
+    Geometry geometry = new Geometry(wkbGeometryType.wkbPoint);
+    geometry.AddPoint(38.5, -121.7, 0);  // Add coordinates
+    CoordinateTransformation ct = new CoordinateTransformation(_srs, _dst);
+    geometry.Transform(ct);
+    feature.SetGeometry(geometry);
+
+    // initialize all fields
+    for (int i = 0; i < _layer.GetLayerDefn().GetFieldCount(); i++)
+    {
+      string fieldName = _layer.GetLayerDefn().GetFieldDefn(i).GetName();
+      feature.SetField(fieldName, "hi");
+    }
+
+    
+    _layer.CreateFeature(feature);
+    feature.Dispose();
+    geometry.Dispose();
+  }
+
+  private static void InitializeFields(Layer layer, Result res)
+  {
+    foreach (ResultItem item in res.ResultItems)
+    {
+      switch (item.Result)
       {
-        Console.WriteLine("Failed to create data source.");
-        return;
+        case int _:
+          layer.CreateField(new FieldDefn(item.ResultName, FieldType.OFTInteger), 1);
+          break;
+        case long _:
+          layer.CreateField(new FieldDefn(item.ResultName, FieldType.OFTInteger64), 1);
+          break;
+        case double _ or float _:
+          layer.CreateField(new FieldDefn(item.ResultName, FieldType.OFTReal), 1);
+          break;
+        case string _:
+          layer.CreateField(new FieldDefn(item.ResultName, FieldType.OFTString), 1);
+          break;
+        case DateOnly _:
+          layer.CreateField(new FieldDefn(item.ResultName, FieldType.OFTDate), 1);
+          break;
+        case TimeOnly _:
+          layer.CreateField(new FieldDefn(item.ResultName, FieldType.OFTTime), 1);
+          break;
+        case DateTime _:
+          layer.CreateField(new FieldDefn(item.ResultName, FieldType.OFTDateTime), 1);
+          break;
+        default:
+          // for case of a null string
+          layer.CreateField(new FieldDefn(item.ResultName, FieldType.OFTString), 1);
+          break;
       }
-
-      // Define the spatial reference (WGS84)
-      SpatialReference srs = new SpatialReference("");
-      srs.SetWellKnownGeogCS("WGS84");
-      SpatialReference dst = new SpatialReference("");
-      dst.ImportFromEPSG(3310);
-
-      // Create a new layer with the specified spatial reference
-      Layer layer = dataSource.CreateLayer("layer_name", dst, wkbGeometryType.wkbPoint, null);
-      if (layer == null)
-      {
-        Console.WriteLine("Failed to create layer.");
-        return;
-      }
-      foreach (ResultItem item in res.ResultItems)
-      {
-        FieldDefn fieldDefn;
-        switch (item.Result)
-        {
-          case int:
-            fieldDefn = new FieldDefn(item.ResultName, FieldType.OFTInteger);
-            break;
-          default:
-            break;
-        }
-        
-        layer.CreateField(fieldDefn, 1);
-      }
-
-
-      // Create a new feature
-      Feature feature = new Feature(layer.GetLayerDefn());
-
-      // Set geometry for the feature (e.g., a point)
-      Geometry geometry = new Geometry(wkbGeometryType.wkbPoint);
-      geometry.AddPoint(38.5, -121.7, 0);  // Add coordinates
-      
-      CoordinateTransformation ct = new CoordinateTransformation(srs, dst);
-      geometry.Transform(ct);
-      feature.SetGeometry(geometry);
-
-      feature.SetField("Field1", 12);
-      feature.SetField("Field2", "Hello");
-
-      layer.CreateFeature(feature);
-      feature.Dispose();
-      geometry.Dispose();
-
-      // Create a new feature
-      Feature feature2 = new Feature(layer.GetLayerDefn());
-
-      // Set geometry for the feature (e.g., a point)
-      Geometry geometry2 = new Geometry(wkbGeometryType.wkbPoint);
-      geometry2.AddPoint(38.554, -121.7, 0);  // Add coordinates
-
-      CoordinateTransformation ct2 = new CoordinateTransformation(srs, dst);
-      geometry2.Transform(ct2);
-      feature2.SetGeometry(geometry);
-
-      feature2.SetField("Field1", 12);
-      feature2.SetField("Field2", "Hello");
-
-      layer.CreateFeature(feature2);
-      feature2.Dispose();
-      geometry2.Dispose();
     }
   }
 
