@@ -7,19 +7,21 @@ namespace Geospatial;
 
 public class SpatialWriter : IResultsWriter
 {
+  private string _outputPath;
   private Layer? _layer;
   private DataSource? _dataSource;
   private SpatialReference? _srs;
   private SpatialReference? _dst;
   private bool _headersWritten;
+  public delegate void FieldTypeDelegate(ref Feature layer, string fieldName, object value);
+  private FieldTypeDelegate? _fieldTypeDelegate;
 
-  public SpatialWriter(string driverName, int projection)
+  public SpatialWriter(string outputPath, string driverName, int projection, FieldTypeDelegate fieldTypeDelegate)
   {
     GDALAssist.GDALSetup.InitializeMultiplatform();
-    string outputPath = @"C:\repos\consequences\ScratchPaper\Files\example.shp";
-    _dataSource = Ogr.GetDriverByName(driverName).CreateDataSource(outputPath, null);
+    _outputPath = outputPath;
+    _dataSource = Ogr.GetDriverByName(driverName).CreateDataSource(_outputPath, null);
     if (_dataSource == null) { Console.WriteLine("Failed to create data source."); return; }
-
     _srs = new SpatialReference("");
     _srs.SetWellKnownGeogCS("WGS84");
     if (_srs == null) { Console.WriteLine("Failed to create source SpatialReference."); return; }
@@ -31,44 +33,46 @@ public class SpatialWriter : IResultsWriter
     if (_layer == null) { Console.WriteLine("Failed to create layer."); return; }
 
     _headersWritten = false;
+    _fieldTypeDelegate = fieldTypeDelegate;
   }
 
   public void Write(Result res)
   {
-    if (_layer == null)
+    if (_layer == null || _fieldTypeDelegate == null)
     {
       return;
     }
-
     if (!_headersWritten)
     {
       InitializeFields(_layer, res);
-
       _headersWritten= true;
     }
 
     Feature feature = new Feature(_layer.GetLayerDefn());
-
-    // Set geometry for the feature (e.g., a point)
     Geometry geometry = new Geometry(wkbGeometryType.wkbPoint);
-    geometry.AddPoint(38.5, -121.7, 0);  // Add coordinates
+    double x = (double)res.Fetch("x").Result;
+    double y = (double)res.Fetch("y").Result;
+    geometry.AddPoint(y, x, 0); 
+    // transform the coordinates according to the specified projection
     CoordinateTransformation ct = new CoordinateTransformation(_srs, _dst);
     geometry.Transform(ct);
     feature.SetGeometry(geometry);
 
-    // initialize all fields
     for (int i = 0; i < _layer.GetLayerDefn().GetFieldCount(); i++)
     {
       string fieldName = _layer.GetLayerDefn().GetFieldDefn(i).GetName();
-      feature.SetField(fieldName, "hi");
+      object val = res.Fetch(fieldName).Result;
+      // assign value to field according to the result's field type mappings defined in _fieldTypeDelegate
+      _fieldTypeDelegate(ref feature, fieldName, val);
     }
 
-    
     _layer.CreateFeature(feature);
     feature.Dispose();
     geometry.Dispose();
   }
 
+
+  // create fields of the appropriate types
   private static void InitializeFields(Layer layer, Result res)
   {
     foreach (ResultItem item in res.ResultItems)

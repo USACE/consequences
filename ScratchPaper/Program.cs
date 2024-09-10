@@ -10,35 +10,28 @@ internal class Program
   {
     
     // city block in Sunset District, SF
-    Location upperLeft1 = new Location { X = -122.475275, Y = 37.752394 };
-    Location lowerRight1 = new Location { X = -122.473523, Y = 37.750642 };
+    Location upperLeft1 = new Location { X = -122.48, Y = 37.76 };
+    Location lowerRight1 = new Location { X = -122.47, Y = 37.75 };
     BoundingBox boundingBox1 = new BoundingBox(upperLeft1, lowerRight1);
 
 
-    Location upperLeft2 = new Location { X = -122.5, Y = 37.8 };
-    Location lowerRight2 = new Location { X = -122, Y = 37.3 };
+    Location upperLeft2 = new Location { X = -121.74, Y = 38.58 };
+    Location lowerRight2 = new Location { X = -121.70, Y = 38.54 };
     BoundingBox boundingBox2 = new BoundingBox(upperLeft2, lowerRight2);
 
     NSIStreamingProcessor sp = new NSIStreamingProcessor();
-    using SpatialWriter c = new SpatialWriter("ESRI Shapefile", 3310);
+    string filePath = @"C:\repos\consequences\ScratchPaper\generated";
+    using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, Utilities.StructureFieldTypes);
     int count = 0;
 
-    await sp.Process(boundingBox1, (IConsequencesReceptor s) => {
-      Console.WriteLine(((Structure)s).Name);
+    await sp.Process(boundingBox2, (IConsequencesReceptor s) => {
+      //Console.WriteLine(((Structure)s).Name);
       Result res = ((Structure)s).ToResult();
       c.Write(res);
       count++;
     });
     Console.WriteLine(count);
     Console.Read();
-  }
-
-  public static void Write()
-  {
-    SpatialWriter c = new SpatialWriter("ESRI Shapefile", 3310);
-    Structure structure = new Structure();
-    Result res = structure.ToResult();
-    c.Write(res);
   }
 
   public static void Read()
