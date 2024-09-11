@@ -8,8 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D661B25B-F61F-48AA-B626-09DDFC8FB7E6}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		.github\workflows\CI.yml = .github\workflows\CI.yml
 		.github\workflows\Release.yml = .github\workflows\Release.yml
+		.github\workflows\Integration.yml = .github\workflows\Integration.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsequencesTest", "ConsequencesTest\ConsequencesTest.csproj", "{95BCC49B-7780-41E9-8365-C51B5E1B3D5E}"
