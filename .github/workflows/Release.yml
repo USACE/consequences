@@ -40,13 +40,15 @@ jobs:
     - name: Zip Release Package
       shell: pwsh
       run: |
-        $root_path = Get-Location
-        Compress-Archive -Path $root_path/Consequences/bin/Release/net8.0/win-x64/native/ -DestinationPath $root_path/Consequences/bin/Release/net8.0/win-x64/native/USACE.HEC.Consequences-${env:VERSION}-windows-x64.zip
+        $SOURCE_PATH ="${pwd}/Consequences/bin/Release/net8.0/win-x64/native/"
+        $DEST_PATH = "${pwd}/USACE.HEC.Consequences-${{env.VERSION}}-windows-x64.zip"
+        Compress-Archive -Path $SOURCE_PATH -DestinationPath $DEST_PATH
+        echo "PACKAGE=$DEST_PATH" >> $env:GITHUB_ENV
 
     - name: Release
       uses: softprops/action-gh-release@v2
       with:
-          files: "**/*.zip"
+          files: ${{ env.PACKAGE }}
 
   build-linux:
     runs-on: ubuntu-latest
@@ -68,20 +70,18 @@ jobs:
         echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
     - name: Build for Linux x64
-      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r linux-x64 --self-contained -p:PublishAot=true /p:PackageVersion=${{ env.VERSION }}
-
-    - name: Upload Linux build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64
-        path: ./Consequences/bin/Release/net8.0/linux-x64/native/
+      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r linux-x64 --self-contained -p:PublishAot=true /p:Version=${{ env.VERSION }}
 
     - name: Zip Release Package
       shell: bash
       run: |
-        zip -r ./Consequences/bin/Release/net8.0/linux-x64/native/USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64.zip ./Consequences/bin/Release/net8.0/linux-x64/native/
+        SRC_PATH = "./Consequences/bin/Release/net8.0/linux-x64/native/"
+        PKG_NAME = "USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64.zip"
+        FULL_PKG = "${SRC_PATH}${PKG_NAME}"
+        echo "FULL_PKG=${FULL_PKG} >> $GITHUB_ENV
+        zip -r $FULL_PKG $SRC_PATH
 
     - name: Release
       uses: softprops/action-gh-release@v2
       with:
-        files: "**/*.zip"
+        files: ${{ env.FULL_PKG }}
