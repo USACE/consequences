@@ -79,7 +79,7 @@ jobs:
         PKG_NAME="USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64.zip"
         FULL_PKG="${SRC_PATH}${PKG_NAME}"
         echo "FULL_PKG=${FULL_PKG}" >> $GITHUB_ENV
-        cd SRC_PATH
+        cd $SRC_PATH
         zip $FULL_PKG ./*
 
     - name: Release
