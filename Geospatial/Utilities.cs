@@ -4,7 +4,7 @@ using OSGeo.OSR;
 namespace Geospatial;
 public class Utilities
 {
-  public static void StructureFieldTypes(ref Feature feature, string fieldName, object value)
+  public static void StructureFieldTypes(Feature feature, string fieldName, object value)
   {
     switch (fieldName)
     {

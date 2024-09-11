@@ -3,13 +3,13 @@ using USACE.HEC.Geography;
 using Geospatial;
 using USACE.HEC.Results;
 using USACE.HEC.Hazards;
+using OSGeo.OGR;
 
 internal class Program
 {
   private async static Task Main(string[] args)
   {
-    
-    // city block in Sunset District, SF
+    // city blocks in Sunset District, SF
     Location upperLeft1 = new Location { X = -122.48, Y = 37.76 };
     Location lowerRight1 = new Location { X = -122.47, Y = 37.75 };
     BoundingBox boundingBox1 = new BoundingBox(upperLeft1, lowerRight1);
@@ -21,17 +21,19 @@ internal class Program
 
     NSIStreamingProcessor sp = new NSIStreamingProcessor();
     string filePath = @"C:\repos\consequences\ScratchPaper\generated";
-    using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, Utilities.StructureFieldTypes);
+
+    //using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, Utilities.StructureFieldTypes);
     int count = 0;
 
     await sp.Process(boundingBox2, (IConsequencesReceptor s) => {
       //Console.WriteLine(((Structure)s).Name);
       Result res = ((Structure)s).ToResult();
-      c.Write(res);
+      //c.Write(res);
       count++;
     });
     Console.WriteLine(count);
     Console.Read();
+    
   }
 
   public static void Read()
@@ -40,9 +42,10 @@ internal class Program
     string path = @"C:\Data\Muncie_WS6_Solution_PART2\Muncie_WS6_Part1_Solution_PART2\Muncie_WS6_Part1_Solution\Structure Inventories\Existing_BaseSI\BaseMuncieStructsFinal.shp";
     int count = 0;
     reader.Process(path, (IConsequencesReceptor s) => {
-      Console.WriteLine(((Structure)s).Name);
+      Console.WriteLine($"Structure {count}:");
+      Console.WriteLine($"  fd_id: {((Structure)s).Name}");
+      Console.WriteLine($"  cbfips: {((Structure)s).CBFips}");
       count++;
     });
-    Console.WriteLine(count);
   }
 }

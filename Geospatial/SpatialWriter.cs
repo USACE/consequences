@@ -13,7 +13,7 @@ public class SpatialWriter : IResultsWriter
   private SpatialReference? _srs;
   private SpatialReference? _dst;
   private bool _headersWritten;
-  public delegate void FieldTypeDelegate(ref Feature layer, string fieldName, object value);
+  public delegate void FieldTypeDelegate(Feature layer, string fieldName, object value);
   private FieldTypeDelegate? _fieldTypeDelegate;
 
   public SpatialWriter(string outputPath, string driverName, int projection, FieldTypeDelegate fieldTypeDelegate)
@@ -21,16 +21,16 @@ public class SpatialWriter : IResultsWriter
     GDALAssist.GDALSetup.InitializeMultiplatform();
     _outputPath = outputPath;
     _dataSource = Ogr.GetDriverByName(driverName).CreateDataSource(_outputPath, null);
-    if (_dataSource == null) { Console.WriteLine("Failed to create data source."); return; }
+    if (_dataSource == null) throw new Exception("Failed to create data source.");
     _srs = new SpatialReference("");
     _srs.SetWellKnownGeogCS("WGS84");
-    if (_srs == null) { Console.WriteLine("Failed to create source SpatialReference."); return; }
+    if (_srs == null) throw new Exception("Failed to create SpatialReference.");
     _dst = new SpatialReference("");
     _dst.ImportFromEPSG(projection);
-    if (_dst == null) { Console.WriteLine("Failed to create destination SpatialReference."); return; }
+    if (_dst == null) throw new Exception("Failed to create SpatialReference.");
 
     _layer = _dataSource.CreateLayer("layer_name", _dst, wkbGeometryType.wkbPoint, null);
-    if (_layer == null) { Console.WriteLine("Failed to create layer."); return; }
+    if (_layer == null) throw new Exception("Failed to create layer.");
 
     _headersWritten = false;
     _fieldTypeDelegate = fieldTypeDelegate;
@@ -48,8 +48,8 @@ public class SpatialWriter : IResultsWriter
       _headersWritten= true;
     }
 
-    Feature feature = new Feature(_layer.GetLayerDefn());
-    Geometry geometry = new Geometry(wkbGeometryType.wkbPoint);
+    using Feature feature = new Feature(_layer.GetLayerDefn());
+    using Geometry geometry = new Geometry(wkbGeometryType.wkbPoint);
     double x = (double)res.Fetch("x").Result;
     double y = (double)res.Fetch("y").Result;
     geometry.AddPoint(y, x, 0); 
@@ -63,12 +63,9 @@ public class SpatialWriter : IResultsWriter
       string fieldName = _layer.GetLayerDefn().GetFieldDefn(i).GetName();
       object val = res.Fetch(fieldName).Result;
       // assign value to field according to the result's field type mappings defined in _fieldTypeDelegate
-      _fieldTypeDelegate(ref feature, fieldName, val);
+      _fieldTypeDelegate(feature, fieldName, val);
     }
-
     _layer.CreateFeature(feature);
-    feature.Dispose();
-    geometry.Dispose();
   }
 
 
