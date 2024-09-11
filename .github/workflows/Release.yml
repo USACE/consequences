@@ -28,6 +28,9 @@ jobs:
         $VERSION = $TAG -replace '^v', ''
         echo "VERSION=$VERSION" >> $env:GITHUB_ENV
 
+    - name: Add Nexus Source
+      run:  dotnet nuget add source --name fda-nuget "https://www.hec.usace.army.mil/nexus/repository/fda-nuget/"
+
     - name: Build for Windows x64
       run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r win-x64 --self-contained -p:PublishAot=true /p:Version=${{ env.VERSION }}
 
