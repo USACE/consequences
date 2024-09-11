@@ -29,19 +29,13 @@ jobs:
         echo "VERSION=$VERSION" >> $env:GITHUB_ENV
 
     - name: Build for Windows x64
-      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r win-x64 --self-contained -p:PublishAot=true /p:PackageVersion=${{ env.VERSION }}
+      run: dotnet publish ${{ env.PROJECT_NAME }} -c Release -r win-x64 --self-contained -p:PublishAot=true /p:Version=${{ env.VERSION }}
 
     - name: Pack NuGet packages
-      run: dotnet pack ${{ env.PROJECT_NAME }} -c Release /p:PackageVersion=${{ env.VERSION }}
+      run: dotnet pack ${{ env.PROJECT_NAME }} -c Release /p:PackageVersion=${{ env.VERSION }} 
 
     - name: Publish NuGet packages to GitHub Packages
       run: dotnet nuget push **/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
-
-    - name: Upload Windows build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: USACE.HEC.Consequences-${{ env.VERSION }}-windows-x64
-        path: ./Consequences/bin/Release/net8.0/win-x64/native/
     
     - name: Zip Release Package
       shell: pwsh
