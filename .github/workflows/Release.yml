@@ -77,10 +77,10 @@ jobs:
       run: |
         SRC_PATH="./Consequences/bin/Release/net8.0/linux-x64/native/"
         PKG_NAME="USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64.zip"
+        cd $SRC_PATH
+        zip -r $PKG_NAME ./
         FULL_PKG="${SRC_PATH}${PKG_NAME}"
         echo "FULL_PKG=${FULL_PKG}" >> $GITHUB_ENV
-        cd $SRC_PATH
-        zip $FULL_PKG ./*
 
     - name: Release
       uses: softprops/action-gh-release@v2
