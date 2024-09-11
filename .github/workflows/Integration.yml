@@ -26,8 +26,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }} 
 
     - name: Add Nexus Source
-      run:  
-        dotnet nuget add source --name fda-nuget "https://www.hec.usace.army.mil/nexus/repository/fda-nuget/"
+      run:  dotnet nuget add source --name fda-nuget "https://www.hec.usace.army.mil/nexus/repository/fda-nuget/"
       
     - name: Install dependencies
       run: dotnet restore -v quiet
