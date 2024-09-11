@@ -75,9 +75,9 @@ jobs:
     - name: Zip Release Package
       shell: bash
       run: |
-        SRC_PATH = "./Consequences/bin/Release/net8.0/linux-x64/native/"
-        PKG_NAME = "USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64.zip"
-        FULL_PKG = "${SRC_PATH}${PKG_NAME}"
+        SRC_PATH="./Consequences/bin/Release/net8.0/linux-x64/native/"
+        PKG_NAME="USACE.HEC.Consequences-${{ env.VERSION }}-linux-x64.zip"
+        FULL_PKG="${SRC_PATH}${PKG_NAME}"
         echo "FULL_PKG=${FULL_PKG} >> $GITHUB_ENV
         zip -r $FULL_PKG $SRC_PATH
 
