@@ -9,6 +9,7 @@ internal class Program
 {
   private async static Task Main(string[] args)
   {
+    /*
     // city blocks in Sunset District, SF
     Location upperLeft1 = new Location { X = -122.48, Y = 37.76 };
     Location lowerRight1 = new Location { X = -122.47, Y = 37.75 };
@@ -22,30 +23,33 @@ internal class Program
     NSIStreamingProcessor sp = new NSIStreamingProcessor();
     string filePath = @"C:\repos\consequences\ScratchPaper\generated";
 
-    //using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, Utilities.StructureFieldTypes);
+    using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, Utilities.StructureFieldTypes);
     int count = 0;
 
     await sp.Process(boundingBox2, (IConsequencesReceptor s) => {
       //Console.WriteLine(((Structure)s).Name);
-      Result res = ((Structure)s).ToResult();
+      //Result res = ((Structure)s).ToResult();
       //c.Write(res);
       count++;
     });
     Console.WriteLine(count);
     Console.Read();
-    
+    */
+    Utilities.InitializeGDAL();
+    Read();
   }
 
   public static void Read()
   {
-    SpatialStructureProcessor reader = new SpatialStructureProcessor();
+    
     string path = @"C:\Data\Muncie_WS6_Solution_PART2\Muncie_WS6_Part1_Solution_PART2\Muncie_WS6_Part1_Solution\Structure Inventories\Existing_BaseSI\BaseMuncieStructsFinal.shp";
     int count = 0;
-    reader.Process(path, (IConsequencesReceptor s) => {
+    SpatialProcessor reader = new SpatialProcessor(path);
+    reader.Process((IConsequencesReceptor s) => {
       Console.WriteLine($"Structure {count}:");
       Console.WriteLine($"  fd_id: {((Structure)s).Name}");
       Console.WriteLine($"  cbfips: {((Structure)s).CBFips}");
       count++;
     });
   }
-}
+} 

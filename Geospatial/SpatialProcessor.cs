@@ -6,17 +6,19 @@ using USACE.HEC.Consequences;
 namespace Geospatial;
 
 // process an OGR driver into a stream of structures and apply a process to the structure
-public class SpatialStructureProcessor : IFileStreamingProcessor
+public class SpatialProcessor : IStreamingProcessor
 {
-  public void Process(string filePath, Action<IConsequencesReceptor> consequenceReceptorProcess)
+  private DataSource _dataSource;
+  private Layer _layer;
+  public SpatialProcessor(string filePath)
   {
-    GDALAssist.GDALSetup.InitializeMultiplatform();
-
-    using DataSource ds = Ogr.Open(filePath, 0) ?? throw new Exception("Failed to create datasource.");
-    Layer layer = ds.GetLayerByIndex(0) ?? throw new Exception("Failed to create layer.");
-
+    _dataSource = Ogr.Open(filePath, 0) ?? throw new Exception("Failed to create datasource.");
+    _layer = _dataSource.GetLayerByIndex(0) ?? throw new Exception("Failed to create layer.");
+  }
+  public void Process(Action<IConsequencesReceptor> consequenceReceptorProcess)
+  {
     Feature structure;
-    while ((structure = layer.GetNextFeature()) != null)
+    while ((structure = _layer.GetNextFeature()) != null)
     {
       PropertyInfo[] properties = typeof(Structure).GetProperties();
       Structure s = new();

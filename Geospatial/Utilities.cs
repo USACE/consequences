@@ -19,5 +19,10 @@ public class Utilities
         break;
     }
   }
+
+  public static void InitializeGDAL()
+  {
+    GDALAssist.GDALSetup.InitializeMultiplatform();
+  }
 }
 

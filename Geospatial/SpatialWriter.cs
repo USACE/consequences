@@ -7,7 +7,6 @@ namespace Geospatial;
 
 public class SpatialWriter : IResultsWriter
 {
-  private string _outputPath;
   private Layer? _layer;
   private DataSource? _dataSource;
   private SpatialReference? _srs;
@@ -18,10 +17,7 @@ public class SpatialWriter : IResultsWriter
 
   public SpatialWriter(string outputPath, string driverName, int projection, FieldTypeDelegate fieldTypeDelegate)
   {
-    GDALAssist.GDALSetup.InitializeMultiplatform();
-    _outputPath = outputPath;
-    _dataSource = Ogr.GetDriverByName(driverName).CreateDataSource(_outputPath, null);
-    if (_dataSource == null) throw new Exception("Failed to create data source.");
+    _dataSource = Ogr.GetDriverByName(driverName).CreateDataSource(outputPath, null) ?? throw new Exception("Failed to create data source.");
     _srs = new SpatialReference("");
     _srs.SetWellKnownGeogCS("WGS84");
     if (_srs == null) throw new Exception("Failed to create SpatialReference.");
@@ -29,8 +25,7 @@ public class SpatialWriter : IResultsWriter
     _dst.ImportFromEPSG(projection);
     if (_dst == null) throw new Exception("Failed to create SpatialReference.");
 
-    _layer = _dataSource.CreateLayer("layer_name", _dst, wkbGeometryType.wkbPoint, null);
-    if (_layer == null) throw new Exception("Failed to create layer.");
+    _layer = _dataSource.CreateLayer("layer_name", _dst, wkbGeometryType.wkbPoint, null) ?? throw new Exception("Failed to create layer.");
 
     _headersWritten = false;
     _fieldTypeDelegate = fieldTypeDelegate;
