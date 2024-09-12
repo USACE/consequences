@@ -45,7 +45,7 @@ internal class Program
     string path = @"C:\Data\Muncie_WS6_Solution_PART2\Muncie_WS6_Part1_Solution_PART2\Muncie_WS6_Part1_Solution\Structure Inventories\Existing_BaseSI\BaseMuncieStructsFinal.shp";
     int count = 0;
     SpatialProcessor reader = new SpatialProcessor(path);
-    reader.Process((IConsequencesReceptor s) => {
+    reader.Process<Structure>((IConsequencesReceptor s) => {
       Console.WriteLine($"Structure {count}:");
       Console.WriteLine($"  fd_id: {((Structure)s).Name}");
       Console.WriteLine($"  cbfips: {((Structure)s).CBFips}");
