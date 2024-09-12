@@ -2,14 +2,14 @@
 using USACE.HEC.Geography;
 using Geospatial;
 using USACE.HEC.Results;
-using USACE.HEC.Hazards;
-using OSGeo.OGR;
 
 internal class Program
 {
   private async static Task Main(string[] args)
   {
-    /*
+    Geospatial.Utilities.InitializeGDAL();
+
+
     // city blocks in Sunset District, SF
     Location upperLeft1 = new Location { X = -122.48, Y = 37.76 };
     Location lowerRight1 = new Location { X = -122.47, Y = 37.75 };
@@ -23,20 +23,19 @@ internal class Program
     NSIStreamingProcessor sp = new NSIStreamingProcessor();
     string filePath = @"C:\repos\consequences\ScratchPaper\generated";
 
-    using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, Utilities.StructureFieldTypes);
+    using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, Geospatial.Utilities.StructureFieldTypes);
     int count = 0;
 
     await sp.Process(boundingBox2, (IConsequencesReceptor s) => {
       //Console.WriteLine(((Structure)s).Name);
-      //Result res = ((Structure)s).ToResult();
-      //c.Write(res);
+      Result res = USACE.HEC.Results.Utilities.ConsequenceReceptorToResult<Structure>(s);
+      c.Write(res);
       count++;
     });
     Console.WriteLine(count);
     Console.Read();
-    */
-    Utilities.InitializeGDAL();
-    Read();
+    
+    //Read();
   }
 
   public static void Read()

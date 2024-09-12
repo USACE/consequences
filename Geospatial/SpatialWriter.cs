@@ -19,7 +19,7 @@ public class SpatialWriter : IResultsWriter
   {
     _dataSource = Ogr.GetDriverByName(driverName).CreateDataSource(outputPath, null) ?? throw new Exception("Failed to create data source.");
     _srs = new SpatialReference("");
-    _srs.SetWellKnownGeogCS("WGS84");
+    _srs.ImportFromEPSG(4326); // WGS84
     if (_srs == null) throw new Exception("Failed to create SpatialReference.");
     _dst = new SpatialReference("");
     _dst.ImportFromEPSG(projection);
