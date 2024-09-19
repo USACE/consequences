@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Consequences\Consequences.csproj" />
+    <ProjectReference Include="..\Geospatial\Geospatial.csproj" />
   </ItemGroup>
 
 </Project>
