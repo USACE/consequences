@@ -16,8 +16,8 @@ public class StructureTest
     ResultItem item1 = res.Fetch("Depth");
 
     Assert.Equal("Depth", item1.ResultName);
-    Assert.Equal(typeof(float), item1.Result.GetType());
-    Assert.Equal(4.56f, item1.Result);
+    Assert.Equal(typeof(float), item1.ResultValue.GetType());
+    Assert.Equal(4.56f, item1.ResultValue);
   }
 
   [Fact]
@@ -47,10 +47,10 @@ public class StructureTest
 
         ResultItem depthItem = res.Fetch("Depth");
         Assert.Equal("Depth", depthItem.ResultName);
-        Assert.Equal(typeof(float), depthItem.Result.GetType());
-        Assert.Equal(depthHazard.Get<float>(HazardParameter.Depth), depthItem.Result); 
+        Assert.Equal(typeof(float), depthItem.ResultValue.GetType());
+        Assert.Equal(depthHazard.Get<float>(HazardParameter.Depth), depthItem.ResultValue); 
         
-        expectedConsoleOutput += depthItem.Result.ToString() + "\r\n";
+        expectedConsoleOutput += depthItem.ResultValue.ToString() + "\r\n";
         actualOutput += cw.WriteString(res);
       }
     }
@@ -89,22 +89,22 @@ public class StructureTest
 
         ResultItem depthItem = res.Fetch("Depth");
         Assert.Equal("Depth", depthItem.ResultName);
-        Assert.Equal(typeof(float), depthItem.Result.GetType());
-        Assert.Equal(lifeLossHazard.Get<float>(HazardParameter.Depth), depthItem.Result);
+        Assert.Equal(typeof(float), depthItem.ResultValue.GetType());
+        Assert.Equal(lifeLossHazard.Get<float>(HazardParameter.Depth), depthItem.ResultValue);
 
         ResultItem velocityItem = res.Fetch("Velocity");
         Assert.Equal("Velocity", velocityItem.ResultName);
-        Assert.Equal(typeof(float), velocityItem.Result.GetType());
-        Assert.Equal(lifeLossHazard.Get<float>(HazardParameter.Velocity), velocityItem.Result);
+        Assert.Equal(typeof(float), velocityItem.ResultValue.GetType());
+        Assert.Equal(lifeLossHazard.Get<float>(HazardParameter.Velocity), velocityItem.ResultValue);
 
         ResultItem arrivalTime2ftItem = res.Fetch("ArrivalTime2ft");
         Assert.Equal("ArrivalTime2ft", arrivalTime2ftItem.ResultName);
-        Assert.Equal(typeof(DateTime), arrivalTime2ftItem.Result.GetType());
-        Assert.Equal(lifeLossHazard.Get<DateTime>(HazardParameter.ArrivalTime2ft), arrivalTime2ftItem.Result);
+        Assert.Equal(typeof(DateTime), arrivalTime2ftItem.ResultValue.GetType());
+        Assert.Equal(lifeLossHazard.Get<DateTime>(HazardParameter.ArrivalTime2ft), arrivalTime2ftItem.ResultValue);
 
-        expectedConsoleOutput += depthItem.Result.ToString() + ',';
-        expectedConsoleOutput += velocityItem.Result.ToString() + ',';
-        expectedConsoleOutput += arrivalTime2ftItem.Result.ToString() + "\r\n";
+        expectedConsoleOutput += depthItem.ResultValue.ToString() + ',';
+        expectedConsoleOutput += velocityItem.ResultValue.ToString() + ',';
+        expectedConsoleOutput += arrivalTime2ftItem.ResultValue.ToString() + "\r\n";
         actualOutput += cw.WriteString(res);
       }
     }

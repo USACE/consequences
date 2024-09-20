@@ -1,11 +1,12 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using USACE.HEC.Consequences;
 
 namespace USACE.HEC.Results;
 public class Utilities
 {
-  public static Result ConsequenceReceptorToResult<T>(IConsequencesReceptor cr) where T: IConsequencesReceptor
+  public static Result ConsequenceReceptorToResult<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(IConsequencesReceptor cr) where T: IConsequencesReceptor
   { 
     List<ResultItem> resultItems = [];
 
@@ -15,7 +16,7 @@ public class Utilities
       ResultItem item; 
       JsonPropertyNameAttribute jsonPropertyAttribute = property.GetCustomAttribute<JsonPropertyNameAttribute>();
       item.ResultName = jsonPropertyAttribute != null ? jsonPropertyAttribute.Name : property.Name;
-      item.Result = property.GetValue(cr);
+      item.ResultValue = property.GetValue(cr);
       resultItems.Add(item);
     }
 

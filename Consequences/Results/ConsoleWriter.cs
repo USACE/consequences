@@ -47,7 +47,7 @@ public class ConsoleWriter : IResultsWriter
     CheckIfSameHeaders(res);
     foreach (string header in headers)
     {
-      object val = res.Fetch(header).Result;
+      object val = res.Fetch(header).ResultValue;
       output.Append(val.ToString());
       if (header != headers.Last())
       {

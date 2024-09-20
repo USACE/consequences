@@ -1,29 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <OutputType>Library</OutputType>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<IsAotCompatible>true</IsAotCompatible>
+		<PublishAot>true</PublishAot>
+		<OutputType>Library</OutputType>
+	</PropertyGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="Geospatial.GDALAssist" Version="0.1.0-Beta" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Geospatial.GDALAssist" Version="0.1.0-Beta" />
+	</ItemGroup>
 
-  <!--<ItemGroup>
+	<!--<ItemGroup>
     <PackageReference Include="Geospatial.GDALAssist" Version="1.0.845-beta" />
   </ItemGroup>-->
-	
-	
 
-  <ItemGroup>
-    <ProjectReference Include="..\Consequences\Consequences.csproj" />
-  </ItemGroup>
-	
-	
 
-  <!--<ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Consequences\Consequences.csproj" />
+	</ItemGroup>
+
+
+
+	<!--<ItemGroup>
     <Reference Include="Geospatial.GDALAssist">
       <HintPath>..\..\..\Users\HEC\Downloads\GDAL\Geospatial.GDALAssist.dll</HintPath>
     </Reference>
