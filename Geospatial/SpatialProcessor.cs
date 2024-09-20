@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using OSGeo.OGR;
 using USACE.HEC.Consequences;
@@ -10,12 +11,14 @@ public class SpatialProcessor : IStreamingProcessor
 {
   private DataSource _dataSource;
   private Layer _layer;
-  public SpatialProcessor(string filePath)
+  public SpatialProcessor(string filePath, int layerIndex = 0)
   {
     _dataSource = Ogr.Open(filePath, 0) ?? throw new Exception("Failed to create datasource.");
-    _layer = _dataSource.GetLayerByIndex(0) ?? throw new Exception("Failed to create layer.");
+    // only one layer in the files we are dealing with
+    _layer = _dataSource.GetLayerByIndex(layerIndex) ?? throw new Exception("Failed to create layer."); 
   }
-  public void Process<T>(Action<IConsequencesReceptor> consequenceReceptorProcess) where T : IConsequencesReceptor, new()
+
+  public void Process<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(Action<IConsequencesReceptor> consequenceReceptorProcess) where T : IConsequencesReceptor, new()
   {
     Feature feature;
     while ((feature = _layer.GetNextFeature()) != null)
@@ -28,7 +31,7 @@ public class SpatialProcessor : IStreamingProcessor
       {
         // IConsequenceReceptors' properties must have the JsonPropertyName tag
         // JsonPropertyNames must match the corresponding field names in the driver for a given property
-        JsonPropertyNameAttribute? jsonPropertyAttribute = property.GetCustomAttribute<JsonPropertyNameAttribute>();
+        JsonPropertyNameAttribute jsonPropertyAttribute = property.GetCustomAttribute<JsonPropertyNameAttribute>();
         string fieldName = jsonPropertyAttribute != null ? jsonPropertyAttribute.Name : property.Name;
 
         // read values from the driver into their corresponding properties in the IConsequencesReceptor
