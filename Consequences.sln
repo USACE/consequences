@@ -8,8 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D661B25B-F61F-48AA-B626-09DDFC8FB7E6}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		.github\workflows\Release.yml = .github\workflows\Release.yml
 		.github\workflows\Integration.yml = .github\workflows\Integration.yml
+		.github\workflows\Release.yml = .github\workflows\Release.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsequencesTest", "ConsequencesTest\ConsequencesTest.csproj", "{95BCC49B-7780-41E9-8365-C51B5E1B3D5E}"
@@ -17,6 +17,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScratchPaper", "ScratchPaper\ScratchPaper.csproj", "{31071E1B-DA08-40CF-8F16-95982E85B45D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geospatial", "Geospatial\Geospatial.csproj", "{CB7204A4-C01A-4C1C-9BEB-C82F95EEA214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOTTest", "AOTTest\AOTTest.csproj", "{D0C41ACF-5F5B-4E3C-B86D-606C1019B91F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeLib", "NativeLib\NativeLib.csproj", "{40FCB033-5B5A-4A4A-ABFF-80CF15800F1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +44,14 @@ Global
 		{CB7204A4-C01A-4C1C-9BEB-C82F95EEA214}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB7204A4-C01A-4C1C-9BEB-C82F95EEA214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB7204A4-C01A-4C1C-9BEB-C82F95EEA214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0C41ACF-5F5B-4E3C-B86D-606C1019B91F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0C41ACF-5F5B-4E3C-B86D-606C1019B91F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0C41ACF-5F5B-4E3C-B86D-606C1019B91F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0C41ACF-5F5B-4E3C-B86D-606C1019B91F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40FCB033-5B5A-4A4A-ABFF-80CF15800F1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40FCB033-5B5A-4A4A-ABFF-80CF15800F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40FCB033-5B5A-4A4A-ABFF-80CF15800F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40FCB033-5B5A-4A4A-ABFF-80CF15800F1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
