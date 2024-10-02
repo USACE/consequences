@@ -2,5 +2,5 @@
 public struct ResultItem
 {
   public string ResultName;
-  public object Result;
+  public object ResultValue;
 }

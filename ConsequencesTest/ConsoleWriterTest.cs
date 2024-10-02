@@ -4,9 +4,9 @@ using USACE.HEC.Results;
 namespace ConsequencesTest;
 public class ConsoleWrite
 {
-  static ResultItem r1 = new ResultItem { ResultName = "Depth", Result = 1.03f };
-  static ResultItem r2 = new ResultItem { ResultName = "Velocity", Result = 2.02f };
-  static ResultItem r3 = new ResultItem { ResultName = "ArrivalTime2ft", Result = new DateTime() };
+  static ResultItem r1 = new ResultItem { ResultName = "Depth", ResultValue = 1.03f };
+  static ResultItem r2 = new ResultItem { ResultName = "Velocity", ResultValue = 2.02f };
+  static ResultItem r3 = new ResultItem { ResultName = "ArrivalTime2ft", ResultValue = new DateTime() };
   static ResultItem[] resultItems = { r1, r2, r3 };
   Result res = new Result(resultItems);
   [Fact]

@@ -14,7 +14,6 @@ public class Result
     for (int i = 0; i < ResultItems.Length; i++)
       if (ResultItems[i].ResultName == name)
         return ResultItems[i];
-    // return empty ResultItem if not found
-    return new ResultItem { ResultName = name };
+    throw new ArgumentException($"{name} not found in result");
   }
 }

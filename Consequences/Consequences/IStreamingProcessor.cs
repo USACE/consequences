@@ -1,7 +1,8 @@
-﻿using USACE.HEC.Geography;
+﻿using System.Diagnostics.CodeAnalysis;
+using USACE.HEC.Geography;
 
 namespace USACE.HEC.Consequences;
 public interface IStreamingProcessor
 {
-  public void Process<T>(Action<IConsequencesReceptor> consequenceReceptorProcess) where T : IConsequencesReceptor, new();
+  public void Process<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(Action<IConsequencesReceptor> consequenceReceptorProcess) where T : IConsequencesReceptor, new();
 }

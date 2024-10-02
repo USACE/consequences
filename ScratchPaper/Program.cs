@@ -1,18 +1,20 @@
 ﻿using USACE.HEC.Consequences;
 using USACE.HEC.Geography;
-using Geospatial;
 using USACE.HEC.Results;
+using Geospatial.OGR;
 
-internal class Program
+internal class Program2
 {
   private async static Task Main(string[] args)
   {
-    Geospatial.Utilities.InitializeGDAL();
+    
+    Geospatial.OGR.Utilities.InitializeGDAL();
 
 
+    
     // city blocks in Sunset District, SF
     Location upperLeft1 = new Location { X = -122.48, Y = 37.76 };
-    Location lowerRight1 = new Location { X = -122.47, Y = 37.75 };
+    Location lowerRight1 = new Location { X = -122.479, Y = 37.759 };
     BoundingBox boundingBox1 = new BoundingBox(upperLeft1, lowerRight1);
 
 
@@ -23,10 +25,12 @@ internal class Program
     NSIStreamingProcessor sp = new NSIStreamingProcessor();
     string filePath = @"C:\repos\consequences\ScratchPaper\generated";
 
-    using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, Geospatial.Utilities.StructureFieldTypes);
+    using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, "x", "y");
+    
     int count = 0;
 
-    await sp.Process(boundingBox2, (IConsequencesReceptor s) => {
+    
+    await sp.Process(boundingBox1, (IConsequencesReceptor s) => {
       //Console.WriteLine(((Structure)s).Name);
       Result res = USACE.HEC.Results.Utilities.ConsequenceReceptorToResult<Structure>(s);
       c.Write(res);
@@ -35,7 +39,16 @@ internal class Program
     Console.WriteLine(count);
     Console.Read();
     
-    //Read();
+    /*
+    Structure s = new();
+    s.Name = 123;
+    Result res = USACE.HEC.Results.Utilities.ConsequenceReceptorToResult<Structure>(s);
+    c.Write(res);
+    
+
+
+    Read();
+    */
   }
 
   public static void Read()

@@ -73,7 +73,7 @@ public class Structure : IConsequencesReceptor
     {
       resultItems.Add(new ResultItem { 
                                        ResultName = "Depth", 
-                                       Result = hazard.Get<float>(HazardParameter.Depth) 
+                                       ResultValue = hazard.Get<float>(HazardParameter.Depth) 
                                      });
     }
 
@@ -81,7 +81,7 @@ public class Structure : IConsequencesReceptor
     {
       resultItems.Add(new ResultItem { 
                                        ResultName = "Velocity", 
-                                       Result = hazard.Get<float>(HazardParameter.Velocity) 
+                                       ResultValue = hazard.Get<float>(HazardParameter.Velocity) 
                                      });
     }
 
@@ -89,7 +89,7 @@ public class Structure : IConsequencesReceptor
     {
       resultItems.Add(new ResultItem { 
                                        ResultName = "ArrivalTime",                               
-                                       Result = hazard.Get<DateTime>(HazardParameter.ArrivalTime) 
+                                       ResultValue = hazard.Get<DateTime>(HazardParameter.ArrivalTime) 
                                      });
     }
 
@@ -97,10 +97,16 @@ public class Structure : IConsequencesReceptor
     {
       resultItems.Add(new ResultItem { 
                                        ResultName = "ArrivalTime2ft",
-                                       Result = hazard.Get<DateTime>(HazardParameter.ArrivalTime2ft) 
+                                       ResultValue = hazard.Get<DateTime>(HazardParameter.ArrivalTime2ft) 
                                      });
     }
 
     return new Result([.. resultItems]);
   }
+}
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(Structure))]
+internal partial class SourceGenerationContext : JsonSerializerContext
+{
 }
