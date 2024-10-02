@@ -8,4 +8,21 @@ public class Class1
   {
     return a + b;
   }
+
+
+  [UnmanagedCallersOnly(EntryPoint = "aot_write")]
+  public static int Write(IntPtr pString)
+  {
+    try
+    {
+      string str = Marshal.PtrToStringAnsi(pString);
+
+      Console.WriteLine(str);
+    }
+    catch
+    {
+      return -1;
+    }
+    return 0;
+  }
 }

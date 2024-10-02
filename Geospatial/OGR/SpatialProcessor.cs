@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using OSGeo.OGR;
 using USACE.HEC.Consequences;
 
-namespace Geospatial;
+namespace Geospatial.OGR;
 
 // process an OGR driver into a stream of IConsequenceReceptors and apply a consequenceReceptorProcess to each
 public class SpatialProcessor : IStreamingProcessor
@@ -15,7 +15,7 @@ public class SpatialProcessor : IStreamingProcessor
   {
     _dataSource = Ogr.Open(filePath, 0) ?? throw new Exception("Failed to create datasource.");
     // only one layer in the files we are dealing with
-    _layer = _dataSource.GetLayerByIndex(layerIndex) ?? throw new Exception("Failed to create layer."); 
+    _layer = _dataSource.GetLayerByIndex(layerIndex) ?? throw new Exception("Failed to create layer.");
   }
 
   public void Process<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(Action<IConsequencesReceptor> consequenceReceptorProcess) where T : IConsequencesReceptor, new()
@@ -39,7 +39,7 @@ public class SpatialProcessor : IStreamingProcessor
           property.SetValue(consequenceReceptor, feature.GetFieldAsInteger(fieldName));
         else if (property.PropertyType == typeof(long))
           property.SetValue(consequenceReceptor, feature.GetFieldAsInteger64(fieldName));
-        else if (property.PropertyType == typeof(double)) 
+        else if (property.PropertyType == typeof(double))
           property.SetValue(consequenceReceptor, feature.GetFieldAsDouble(fieldName));
         else if (property.PropertyType == typeof(float))
           property.SetValue(consequenceReceptor, (float)feature.GetFieldAsDouble(fieldName));

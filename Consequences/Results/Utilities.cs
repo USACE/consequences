@@ -19,7 +19,7 @@ public class Utilities
       item.ResultValue = property.GetValue(cr);
       resultItems.Add(item);
     }
-
+    Console.WriteLine("hello");
     return new Result([.. resultItems]);
   }
 }

@@ -6,11 +6,18 @@
 		<IsAotCompatible>true</IsAotCompatible>
 		<PublishAot>true</PublishAot>
 		<OutputType>Library</OutputType>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Geospatial.GDALAssist" Version="0.1.0-Beta" />
+	  <Compile Remove="GDAL Bindings\**" />
+	  <EmbeddedResource Remove="GDAL Bindings\**" />
+	  <None Remove="GDAL Bindings\**" />
 	</ItemGroup>
+
+	<!--<ItemGroup>
+		<PackageReference Include="Geospatial.GDALAssist" Version="0.1.0-Beta" />
+	</ItemGroup>-->
 
 	<!--<ItemGroup>
     <PackageReference Include="Geospatial.GDALAssist" Version="1.0.845-beta" />
@@ -21,6 +28,14 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Consequences\Consequences.csproj" />
 	</ItemGroup>
+
+
+
+	<ItemGroup>
+	  <Folder Include="GDAL-Bindings\" />
+	</ItemGroup>
+
+
 
 
 

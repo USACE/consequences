@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AOTTest": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

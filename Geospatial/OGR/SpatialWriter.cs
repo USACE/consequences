@@ -1,10 +1,8 @@
-﻿using System.Reflection;
-using Geospatial.GDALAssist.Vectors.SSURGO;
-using OSGeo.OGR;
+﻿using OSGeo.OGR;
 using OSGeo.OSR;
 using USACE.HEC.Results;
 
-namespace Geospatial;
+namespace Geospatial.OGR;
 
 
 public class SpatialWriter : IResultsWriter
@@ -43,16 +41,16 @@ public class SpatialWriter : IResultsWriter
     if (!_headersWritten)
     {
       InitializeFields(res);
-      _headersWritten= true;
+      _headersWritten = true;
     }
 
-    using Feature feature = new Feature(_layer.GetLayerDefn());
-    using Geometry geometry = new Geometry(wkbGeometryType.wkbPoint);
+    using var feature = new Feature(_layer.GetLayerDefn());
+    using var geometry = new Geometry(wkbGeometryType.wkbPoint);
     double x = (double)res.Fetch(_xField).ResultValue;
     double y = (double)res.Fetch(_yField).ResultValue;
-    geometry.AddPoint(y, x, 0); 
+    geometry.AddPoint(y, x, 0);
     // transform the coordinates according to the specified projection
-    CoordinateTransformation ct = new CoordinateTransformation(_srs, _dst);
+    var ct = new CoordinateTransformation(_srs, _dst);
     geometry.Transform(ct);
     feature.SetGeometry(geometry);
 
@@ -69,8 +67,7 @@ public class SpatialWriter : IResultsWriter
   // create fields of the appropriate types
   private void InitializeFields(Result res)
   {
-    foreach (ResultItem item in res.ResultItems) 
-    {
+    foreach (ResultItem item in res.ResultItems)
       switch (item.ResultValue)
       {
         case int _:
@@ -99,7 +96,6 @@ public class SpatialWriter : IResultsWriter
           _layer.CreateField(new FieldDefn(item.ResultName, FieldType.OFTString), 1);
           break;
       }
-    }
   }
 
   private static void SetField(Feature feature, string fieldName, object val)
