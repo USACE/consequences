@@ -7,12 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!--<None Include="..\Consequences\bin\Release\net8.0\win-x64\publish\USACE.HEC.Consequences.dll" Link="USACE.HEC.Consequences.dll">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>-->
-		<None Include="..\NativeLib\bin\Release\net8.0\win-x64\publish\NativeLib.dll" Link="NativeLib.dll">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 		<None Include="..\GeoConsequences\bin\Release\net8.0\win-x64\publish\GeoConsequences.dll" Link="GeoConsequences.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

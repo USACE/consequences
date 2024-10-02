@@ -5,11 +5,6 @@ internal class Program
 {
   private static void Main(string[] args)
   {
-    Console.WriteLine("===========================TESTING ARBITRARY NATIVE LIBRARY=================================");
-    Console.WriteLine(FirstTest.aotsample_add(1,2));
-    IntPtr ptr = Marshal.StringToCoTaskMemAnsi("hi");
-    FirstTest.aot_write(ptr);
-
     Console.WriteLine("===========================TESTING GEOCONSEQUENCES NATIVE LIBRARY===========================\r\n");
     SecondTest.InitializeGDAL();
 
@@ -20,16 +15,6 @@ internal class Program
     SecondTest.ReadNSI();
   }
 }
-
-public class FirstTest
-{
-  [DllImport("NativeLib.dll")]
-  public static extern int aotsample_add(int a, int b);
-
-  [DllImport("NativeLib.dll")]
-  public static extern int aot_write(IntPtr pString);
-}
-
 
 public class SecondTest
 {
