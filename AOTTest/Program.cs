@@ -11,15 +11,15 @@ internal class Program
     Console.WriteLine("===========================READING A SHAPEFILE==============================================");
     SecondTest.ReadFile();
 
-    Console.WriteLine("===========================READING FROM THE NSI AND WRITING RESULTS TO SHAPEFILE============");
-    SecondTest.ReadNSI();
+    Console.WriteLine("===========================READING FROM THE NSI=============================================");
+    SecondTest.ReadNSI(-122.48, 37.76, -122.479, 37.759, 0);
   }
 }
 
 public class SecondTest
 {
   [DllImport("GeoConsequences.dll")]
-  public static extern int ReadNSI();
+  public static extern int ReadNSI(double ulX, double ulY, double lrX, double lrY, int actionIndex);
 
   [DllImport("GeoConsequences.dll")]
   public static extern int ReadFile();
