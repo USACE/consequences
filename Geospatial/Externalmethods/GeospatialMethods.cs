@@ -3,7 +3,7 @@ using Geospatial.OGR;
 using USACE.HEC.Consequences;
 
 namespace Geospatial.Externalmethods;
-public class OGR
+public class GeospatialMethods
 {
   [UnmanagedCallersOnly(EntryPoint = "InitializeGDAL")]
   public static int Init()

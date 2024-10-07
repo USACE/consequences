@@ -1,4 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<!--Here we are compiling the source files from the Consequences and Geospatial
+projects into one new project, GeoConsequences. We did this to combat the (potential?)
+issue of AOT projects having references to each other. This stack overflow post mentions the issue, but we will test to confirm.
+https://stackoverflow.com/questions/77482081/is-it-possible-to-use-net-aot-ahead-of-time-compilation-for-only-some-of-my-a#:~:text=The%20AOT%20project%20can%27t%20have%20any%20references%20to,have%20a%20project%20reference%20to%20the%20AOT%20project.-->
+
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -42,8 +47,8 @@
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="GeospatialFiles\" />
-	  <Folder Include="ConsequencesFiles\" />
+		<Folder Include="GeospatialFiles\" />
+		<Folder Include="ConsequencesFiles\" />
 	</ItemGroup>
-	
+
 </Project>
