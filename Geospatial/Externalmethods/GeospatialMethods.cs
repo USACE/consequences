@@ -1,6 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using Geospatial.OGR;
 using USACE.HEC.Consequences;
+using USACE.HEC.Geography;
+using USACE.HEC.Results;
+
 
 namespace Geospatial.Externalmethods;
 public class GeospatialMethods
@@ -9,23 +12,30 @@ public class GeospatialMethods
   public static int Init()
   {
     Console.WriteLine("Setting up GDAL...");
-    Utilities.InitializeGDAL();
+    OGR.Utilities.InitializeGDAL();
     return 0;
   }
 
-  [UnmanagedCallersOnly(EntryPoint = "ReadFile")]
-  public static int Read()
+  [UnmanagedCallersOnly(EntryPoint = "WriteNSIToShapefile")]
+  public static int Write(IntPtr outputPath, IntPtr driverName, int projection, IntPtr xField, IntPtr yField, double ulX, double ulY, double lrX, double lrY)
   {
-    string path = @"C:\Data\Muncie_WS6_Solution_PART2\Muncie_WS6_Part1_Solution_PART2\Muncie_WS6_Part1_Solution\Structure Inventories\Existing_BaseSI\BaseMuncieStructsFinal.shp";
-    int count = 0;
-    var reader = new SpatialProcessor(path);
-    reader.Process<Structure>((s) =>
-    {
-      Console.WriteLine($"Structure {count}:");
-      Console.WriteLine($"  fd_id: {((Structure)s).Name}");
-      Console.WriteLine($"  cbfips: {((Structure)s).CBFips}");
-      count++;
+    string path = Marshal.PtrToStringAnsi(outputPath);
+    string driver = Marshal.PtrToStringAnsi(driverName);
+    string x  = Marshal.PtrToStringAnsi(xField);
+    string y = Marshal.PtrToStringAnsi(yField);
+    SpatialWriter sw = new SpatialWriter(path, driver, projection, x, y);
+
+    Location upperLeft = new Location { X = ulX, Y = ulY };
+    Location lowerRight = new Location { X = lrX, Y = lrY };
+    BoundingBox boundingBox = new BoundingBox(upperLeft, lowerRight);
+    NSIStreamingProcessor sp = new NSIStreamingProcessor();
+
+    Task task = sp.Process(boundingBox, (IConsequencesReceptor s) => {
+      Result res = USACE.HEC.Results.Utilities.ConsequenceReceptorToResult<Structure>(s);
+      sw.Write(res);
     });
+    task.Wait();
+
     return 0;
   }
 }
