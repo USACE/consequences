@@ -16,7 +16,7 @@ public class SpatialWriter : IResultsWriter
   private string _yField;
 
   /// <summary>
-  /// SpatialWriter writes spatial results data. X and Y Fields are the ResultItem names of the x and y coordinates. 
+  /// SpatialWriter writes spatial results data. X and Y Fields are the ResultItem names of the x and y coordinates. We demand the types for the coordinates to be doubles. 
   /// </summary>
   public SpatialWriter(string outputPath, string driverName, int sourceEPSG, int projection, string xField, string yField)
   {
@@ -44,8 +44,9 @@ public class SpatialWriter : IResultsWriter
       _headersWritten = true;
     }
 
-    using var feature = new Feature(_layer.GetLayerDefn());
-    using var geometry = new Geometry(wkbGeometryType.wkbPoint);
+    using Feature feature = new Feature(_layer.GetLayerDefn());
+    using Geometry geometry = new Geometry(wkbGeometryType.wkbPoint);
+    // demand doubles for the coordinates
     double x = (double)res.Fetch(_xField).ResultValue;
     double y = (double)res.Fetch(_yField).ResultValue;
     geometry.AddPoint(y, x, 0);
