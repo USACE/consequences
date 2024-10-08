@@ -23,7 +23,7 @@ public class GeospatialMethods
     string driver = Marshal.PtrToStringAnsi(driverName);
     string x  = Marshal.PtrToStringAnsi(xField);
     string y = Marshal.PtrToStringAnsi(yField);
-    SpatialWriter sw = new SpatialWriter(path, driver, projection, x, y);
+    SpatialWriter sw = new SpatialWriter(path, driver, 4326, projection, x, y);
 
     Location upperLeft = new Location { X = ulX, Y = ulY };
     Location lowerRight = new Location { X = lrX, Y = lrY };

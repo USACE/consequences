@@ -18,11 +18,11 @@ public class SpatialWriter : IResultsWriter
   /// <summary>
   /// SpatialWriter writes spatial results data. X and Y Fields are the ResultItem names of the x and y coordinates. 
   /// </summary>
-  public SpatialWriter(string outputPath, string driverName, int projection, string xField, string yField)
+  public SpatialWriter(string outputPath, string driverName, int sourceEPSG, int projection, string xField, string yField)
   {
     _dataSource = Ogr.GetDriverByName(driverName).CreateDataSource(outputPath, null) ?? throw new Exception("Failed to create data source.");
     _srs = new SpatialReference("");
-    _srs.ImportFromEPSG(4326); // WGS84
+    _srs.ImportFromEPSG(sourceEPSG); 
     if (_srs == null) throw new Exception("Failed to create SpatialReference.");
     _dst = new SpatialReference("");
     _dst.ImportFromEPSG(projection);

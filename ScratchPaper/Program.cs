@@ -25,7 +25,7 @@ internal class Program2
     NSIStreamingProcessor sp = new NSIStreamingProcessor();
     string filePath = @"C:\repos\consequences\ScratchPaper\generated";
 
-    using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 3310, "x", "y");
+    using SpatialWriter c = new SpatialWriter(filePath, "ESRI Shapefile", 4326, 3310, "x", "y");
     
     int count = 0;
 
