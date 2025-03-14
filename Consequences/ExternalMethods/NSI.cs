@@ -24,6 +24,7 @@ public class NSI
     int count = 0;
     Task task = sp.Process(boundingBox, (IConsequencesReceptor s) => {
       Console.WriteLine(((Structure)s).Name);
+      Console.WriteLine("hi");
       count++;
     });
 

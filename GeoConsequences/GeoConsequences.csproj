@@ -6,7 +6,7 @@ https://stackoverflow.com/questions/77482081/is-it-possible-to-use-net-aot-ahead
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<IsAotCompatible>true</IsAotCompatible>
 		<PublishAot>true</PublishAot>

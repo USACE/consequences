@@ -7,7 +7,19 @@ public class Utilities
 {
   public static void InitializeGDAL()
   {
-    //GDALAssist.GDALSetup.InitializeMultiplatform($"C:\\GDAL");
+    Ogr.RegisterAll();
+    Gdal.AllRegister();
+  }
+
+  public static void InitializeGDAL(string path)
+  {
+    string paths = path + @"\bin64\;";
+    Environment.SetEnvironmentVariable("PATH", paths + Environment.GetEnvironmentVariable("PATH"));
+    string dataDir = path + @"\common\data\;";
+    Environment.SetEnvironmentVariable("GDAL_DATA", dataDir);
+    Gdal.SetConfigOption("GDAL_DATA", dataDir);
+    Environment.SetEnvironmentVariable("PROJ_LIB", dataDir);
+    Gdal.SetConfigOption("PROJ_LIB", dataDir);
     Ogr.RegisterAll();
     Gdal.AllRegister();
   }
