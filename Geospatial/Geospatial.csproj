@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<IsAotCompatible>true</IsAotCompatible>
 		<PublishAot>true</PublishAot>
@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Geospatial.GDALAssist" Version="0.1.0-Beta" />
+	  <PackageReference Include="HEC.RAS.Geospatial.GDALAssist" Version="0.1.0.1554-dev" />
 	</ItemGroup>
 
 	<!--<ItemGroup>

@@ -1,12 +1,11 @@
-﻿using OSGeo.OGR;
-using OSGeo.OSR;
+﻿using Geospatial.GDALAssist;
 
 namespace Geospatial;
 public class Utilities
 {
   public static void InitializeGDAL()
   {
-    GDALAssist.GDALSetup.InitializeMultiplatform();
+    GDALSetup.InitializeMultiplatform();
   }
 }
 

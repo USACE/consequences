@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<IsAotCompatible>true</IsAotCompatible>
 		<PublishAot>true</PublishAot>
 		<RootNamespace>USACE.HEC</RootNamespace>
 		<AssemblyName>USACE.HEC.Consequences</AssemblyName>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="HEC.RAS.Ras.Core" Version="0.1.0.1554-dev" />
+	</ItemGroup>
 
 </Project>

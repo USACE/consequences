@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using Geospatial.GDALAssist.Vectors.SSURGO;
-using OSGeo.OGR;
+﻿using OSGeo.OGR;
 using OSGeo.OSR;
 using USACE.HEC.Results;
 
